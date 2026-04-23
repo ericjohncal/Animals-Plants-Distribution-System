@@ -188,10 +188,13 @@ while True:
 
         # Draw box if confidence threshold is high enough
         if conf > min_thresh:
+            print("Found something")
             with open("results.txt", "a") as f:
                 f.write(classname+ "\n")
             # Basic example: count the number of objects in the image
             object_count = object_count + 1
+        else:
+            print("couldn't find a single thing in that")
 
 
     # If inferencing on individual images, wait for user keypress before moving to next image. Otherwise, wait 5ms before moving to next frame.
