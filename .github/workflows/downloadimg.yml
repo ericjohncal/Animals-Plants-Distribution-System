@@ -55,25 +55,28 @@ jobs:
         id: call_llm
         run: |
           WORKING_ID=$(cat backend/yolo/workingid.txt)
+
           COMMON_NAME=$(jq -r ".[] | select(.id == $WORKING_ID) | .commonName" backend/data/sightings.json)
           CITY=$(jq -r ".[] | select(.id == $WORKING_ID) | .city" backend/data/sightings.json)
           COUNTRY=$(jq -r ".[] | select(.id == $WORKING_ID) | .country" backend/data/sightings.json)
 
+          PROMPT="I spotted a $COMMON_NAME in $CITY in the country $COUNTRY. Does that species live there? Keep your response to just the word yes or no."
+
           RESPONSE=$(curl -s -X POST "http://75.111.218.179:11434/api/generate" \
             -H "Content-Type: application/json" \
-            -d '{
-              "model": "mistral:7b-instruct",
-              "prompt"="I spotted a $COMMON_NAME in $CITY in the country $COUNTRY. Does that species live there? Keep your response to just the word yes or no."
-              "stream": false
-            }')
+            -d "{
+              \"model\": \"mistral:7b-instruct\",
+              \"prompt\": \"$PROMPT\",
+              \"stream\": false
+            }")
 
-          TEXT=$(echo "$RESPONSE" | jq -r '.response')
+          ANSWER=$(echo "$RESPONSE" | jq -r '.response' | tr '[:upper:]' '[:lower:]')
 
           jq --arg id "$WORKING_ID" \
-          --arg val "$ANSWER" \
-          '
-          (.[] | select(.id == $id) | .isValid) = $val
-          ' backend/data/sightings.json > tmp.json && mv tmp.json backend/data/sightings.json
+            --arg val "$ANSWER" \
+            '
+            (.[] | select(.id == ($id|tonumber)) | .isValid) = $val
+            ' backend/data/sightings.json > tmp.json && mv tmp.json backend/data/sightings.json
 
       - name: Run detection
         run: |
