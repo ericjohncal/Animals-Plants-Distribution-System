@@ -95,6 +95,8 @@ export default function MapView({ sightings, onReportClick }) {
 
             {sightings.map((s) => {
               const color = TYPE_COLORS[s.type] || TYPE_COLORS.Other;
+              const place = [s.city, s.country].filter(Boolean).join(", ");
+
               return (
                   <CircleMarker
                       key={s.id}
@@ -122,7 +124,7 @@ export default function MapView({ sightings, onReportClick }) {
                       {s.type}
                     </span>
                         <strong className="popup-name">{s.commonName}</strong>
-                        <span className="popup-loc">📍 {s.location}</span>
+                        <span className="popup-loc">📍 {place || "Unknown location"}</span>
                         <span className="popup-date">{s.date}</span>
                         <span className="popup-date">Reported by {s.reporter}</span>
                         {s.notes && <p className="popup-notes">{s.notes}</p>}
