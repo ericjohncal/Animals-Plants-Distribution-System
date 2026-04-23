@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 export function useEbird(fetcher, key) {
   const [state, setState] = useState({ loading: !!key, data: null, error: null });
 
-  const serialized = JSON.stringify(key);
   useEffect(() => {
     if (!key) { setState({ loading: false, data: null, error: null }); return; }
     let cancelled = false;
@@ -12,8 +11,7 @@ export function useEbird(fetcher, key) {
       .then((data) => { if (!cancelled) setState({ loading: false, data, error: null }); })
       .catch((error) => { if (!cancelled) setState({ loading: false, data: null, error }); });
     return () => { cancelled = true; };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [serialized]);
+  }, [key, fetcher]);
 
   return state;
 }
