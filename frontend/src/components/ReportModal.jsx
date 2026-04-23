@@ -265,15 +265,18 @@ export default function ReportModal({ isOpen, onClose, onSubmit }) {
       </div>
   );
 
-  const isApproved = resolvedSighting?.status === "Approved" && resolvedSighting?.isValid === "Yes";
+  const isApproved = resolvedSighting?.status === "Approved" && resolvedSighting?.isValid === "yes";
 
   const renderResolved = () => (
       <div className="modal-status-screen">
         <div className={`modal-status-icon ${isApproved ? "icon-approved" : "icon-denied"}`}>
           {isApproved ? "✓" : "✕"}
         </div>
-        <h3 className={`modal-status-title ${isApproved ? "text-approved" : "text-denied"}`}>
-          Sighting {resolvedSighting.status}
+        <h3 className="modal-status-title">
+        {isApproved
+            ? "Sighting Approved"
+            : "Sighting Denied"}
+
         </h3>
         <p className="modal-status-body">
           {isApproved
@@ -351,6 +354,7 @@ export default function ReportModal({ isOpen, onClose, onSubmit }) {
                               value={formData.imageUrl}
                               onChange={handleChange}
                               placeholder="https://example.com/image.jpg"
+                              required
                           />
                         </div>
 

@@ -44,6 +44,15 @@ export default function MapPage() {
   const [selectedSighting, setSelectedSighting] = useState(null);
   const [reportOpen, setReportOpen] = useState(false);
 
+  const contributorCount = useMemo(() => {
+    const reporters = new Set(
+        sightings
+            .map((s) => String(s.reporter || "").trim())
+            .filter(Boolean)
+    );
+    return reporters.size;
+  }, [sightings]);
+
   useEffect(() => {
     const loadSightings = async () => {
       setLoading(true);
@@ -113,7 +122,7 @@ export default function MapPage() {
             <div className="stat-label">Sightings</div>
           </div>
           <div className="stat">
-            <div className="stat-num">312</div>
+            <div className="stat-num">{contributorCount.toLocaleString()}</div>
             <div className="stat-label">Contributors</div>
           </div>
         </div>
