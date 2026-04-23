@@ -23,7 +23,7 @@ jobs:
             -H "Content-Type: application/json" \
             -d '{
               "model": "mistral:7b-instruct",
-              "prompt": "Write a short motivational quote",
+              "prompt": "I spotted a Cardinal in Lubbock Texas. Does that species live there? Keep your response to just the word yes or no.",
               "stream": false
             }')
 
