@@ -1,0 +1,190 @@
+/* ============================================================
+   WildAtlas — Colors & Type
+   Nature-themed citizen science map. Warm off-white background,
+   deep forest green as the hero accent, taxonomy-coded categories.
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+@font-face {
+  font-family: 'Playfair Display';
+  src: url('fonts/PlayfairDisplay-VariableFont_wght.ttf') format('truetype-variations');
+  font-weight: 400 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Playfair Display';
+  src: url('fonts/PlayfairDisplay-Italic-VariableFont_wght.ttf') format('truetype-variations');
+  font-weight: 400 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+:root {
+  /* ---------- Surfaces ---------- */
+  --bg-primary: #EEEEE6;        /* Warm off-white page background */
+  --bg-card:    #FFFFFF;        /* Pure white cards, map container */
+  --bg-nav:     #FFFFFF;        /* White top nav */
+  --bg-subtle:  #F5F5EE;        /* Hover / muted row */
+
+  /* ---------- Foreground ---------- */
+  --text-primary:   #1A1A1A;    /* Near-black headings */
+  --text-secondary: #555555;    /* Body copy, subtitles */
+  --text-muted:     #888888;    /* Labels, metadata, section eyebrows */
+  --text-inverse:   #FFFFFF;    /* On dark green */
+
+  /* ---------- Brand accent (forest green) ---------- */
+  --accent-green:        #2D5A27;   /* Primary CTA, active pill text */
+  --accent-green-hover:  #234820;   /* CTA hover */
+  --accent-green-light:  #E8F0E7;   /* Active pill fill */
+
+  /* ---------- Taxonomy color system ---------- */
+  --tag-plant:    #4A7C59;
+  --tag-mammal:   #B5621E;
+  --tag-bird:     #4A6FA5;
+  --tag-insect:   #7B5EA7;
+  --tag-reptile:  #2E7D6F;
+  --tag-other:    #888888;
+
+  --tag-plant-bg:    #E8F2EB;
+  --tag-mammal-bg:   #FAF0E8;
+  --tag-bird-bg:     #EAF0FA;
+  --tag-insect-bg:   #F3EFF9;
+  --tag-reptile-bg:  #E8F4F2;
+  --tag-other-bg:    #F0F0EC;
+
+  /* Pin colors mirror tag text colors */
+  --pin-plant:    var(--tag-plant);
+  --pin-mammal:   var(--tag-mammal);
+  --pin-bird:     var(--tag-bird);
+  --pin-insect:   var(--tag-insect);
+  --pin-reptile:  var(--tag-reptile);
+  --pin-other:    var(--tag-other);
+
+  /* ---------- Lines & elevation ---------- */
+  --border:       #E0E0D8;              /* Subtle warm-gray borders */
+  --border-soft:  #EEEEE6;              /* Internal dividers */
+  --shadow-sm:    0 1px 2px rgba(0,0,0,0.05);
+  --shadow:       0 1px 3px rgba(0,0,0,0.08);
+  --shadow-md:    0 4px 12px rgba(0,0,0,0.08);
+  --shadow-cta:   0 4px 14px rgba(45, 90, 39, 0.28);
+
+  /* ---------- Radii ---------- */
+  --radius-sm:    6px;
+  --radius-md:    8px;          /* buttons, inputs */
+  --radius-lg:    12px;         /* cards */
+  --radius-xl:    16px;         /* map container */
+  --radius-pill:  9999px;       /* chips, FAB */
+
+  /* ---------- Spacing scale (4pt grid) ---------- */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+
+  /* ---------- Typography foundations ---------- */
+  --font-sans:   'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-serif:  'Playfair Display', Georgia, serif;   /* italic accent only */
+
+  --fs-eyebrow: 0.70rem;   /* 11.2px uppercase labels */
+  --fs-meta:    0.75rem;   /* 12px metadata */
+  --fs-body-sm: 0.813rem;  /* 13px */
+  --fs-body:    0.9rem;    /* 14.4px */
+  --fs-lead:    1rem;      /* 16px */
+  --fs-h3:      1.125rem;  /* 18px */
+  --fs-h2:      1.5rem;    /* 24px stat numbers */
+  --fs-h1:      2.5rem;    /* 40px hero */
+
+  --lh-tight: 1.2;
+  --lh-body:  1.6;
+
+  --tracking-wide:    0.06em;
+  --tracking-widest:  0.12em;
+
+  /* ---------- Motion ---------- */
+  --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --dur-fast: 120ms;
+  --dur:      180ms;
+}
+
+/* ============================================================
+   Semantic type roles
+   ============================================================ */
+
+body {
+  font-family: var(--font-sans);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  color: var(--text-secondary);
+  background: var(--bg-primary);
+  -webkit-font-smoothing: antialiased;
+}
+
+.h1, h1 {
+  font-family: var(--font-sans);
+  font-size: var(--fs-h1);
+  font-weight: 700;
+  line-height: var(--lh-tight);
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+}
+
+/* The hero uses a serif italic accent on ONE word (e.g. "nature"). */
+.h1 em, h1 em, .accent-italic {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  color: var(--accent-green);
+}
+
+.h2, h2 {
+  font-family: var(--font-sans);
+  font-size: var(--fs-h2);
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: var(--lh-tight);
+}
+
+.h3, h3 {
+  font-family: var(--font-sans);
+  font-size: var(--fs-h3);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.eyebrow, .section-label {
+  font-size: var(--fs-eyebrow);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-widest);
+  color: var(--text-muted);
+}
+
+.meta {
+  font-size: var(--fs-meta);
+  color: var(--text-muted);
+}
+
+.lead {
+  font-size: var(--fs-lead);
+  color: var(--text-secondary);
+  line-height: var(--lh-body);
+}
+
+.stat-num {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1;
+}
+
+.scientific {
+  font-style: italic;
+  color: var(--text-muted);
+}

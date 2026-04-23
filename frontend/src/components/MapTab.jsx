@@ -24,6 +24,15 @@ export default function MapTab({ sightings }) {
 
   return (
     <section className="tab-section">
+      <div className="hero">
+        <h1 className="hero-heading">
+          Citizen science for local <em>biodiversity</em>.
+        </h1>
+        <p className="hero-sub">
+          Report sightings, identify species with AI, and watch migration
+          patterns shift across the seasons.
+        </p>
+      </div>
       <div className="filter-row">
         <label htmlFor="species-filter" className="filter-label">
           Filter by species
