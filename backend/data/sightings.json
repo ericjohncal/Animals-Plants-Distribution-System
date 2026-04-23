@@ -1,19 +1,5 @@
 [
   {
-    "id": 1776944058332,
-    "type": "Bird",
-    "commonName": "Cardinal",
-    "city": "Lubbock",
-    "country": "United States",
-    "lat": 33.59248964327422,
-    "lng": -101.86430877118954,
-    "notes": "",
-    "date": "2026-04-23",
-    "reporter": "Shams A",
-    "imageUrl": "https://indianaaudubon.org/wp-content/uploads/2016/04/Cardinal_Northern_male_Ash_2012.jpg",
-    "status": "Reported"
-  },
-  {
     "id": 1776933463329,
     "type": "Mammal",
     "commonName": "Brown Bear",
@@ -26,7 +12,7 @@
     "date": "2026-04-07",
     "reporter": "Shams A",
     "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/7/71/2010-kodiak-bear-1.jpg",
-    "status": "Denied"
+    "status": "Approved"
   },
   {
     "id": 1776933463330,
