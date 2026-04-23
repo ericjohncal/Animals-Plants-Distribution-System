@@ -33,7 +33,7 @@ function matchesTimeRange(sightingDate, timeRange) {
 }
 
 function isAllowedValidity(value) {
-  return value === "" || value === "Yes" || value === undefined || value === null;
+  return value === "" || value === "yes" || value === undefined || value === null;
 }
 
 export default function MapPage() {
