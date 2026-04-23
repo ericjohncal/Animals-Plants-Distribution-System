@@ -1,0 +1,74 @@
+name: Extract Top Sighting, Download Image, and Commit
+
+on:
+  push:
+    paths:
+      - backend/data/sightings.json
+
+permissions:
+  contents: write
+
+jobs:
+  process-sighting:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install requests
+          
+
+      - name: Extract top entry id and imageUrl
+        id: extract
+        run: |
+          TOP_ID=$(jq -r '.[0].id' backend/data/sightings.json)
+          TOP_IMAGE=$(jq -r '.[0].imageUrl' backend/data/sightings.json)
+
+          echo "id=$TOP_ID" >> $GITHUB_OUTPUT
+          echo "imageUrl=$TOP_IMAGE" >> $GITHUB_OUTPUT
+
+      - name: Run downloader script
+        run: |
+          python backend/yolo/downloader.py "${{ steps.extract.outputs.imageUrl }}" backend/yolo/image.jpg
+
+      - name: Write working ID file
+        run: |
+          echo "${{ steps.extract.outputs.id }}" > backend/yolo/workingid.txt
+
+      - name: Commit updated files
+        run: |
+          
+
+
+      - name: Run detection
+        run: |
+          cd backend/yolo
+          python yolo_detect.py --model=runs/detect/train/weights/best.pt --source=image.jpg
+
+      - name: Commit results back to repo
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add backend/yolo/image.jpg backend/yolo/workingid.txt
+          git add backend/yolo/results.txt
+
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Update YOLO image and working ID from latest sighting"
+            git push
+          fi
+

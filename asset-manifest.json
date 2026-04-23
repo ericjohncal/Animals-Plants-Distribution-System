@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/animals-plants-distribution-system/static/css/main.aefa150c.css",
+    "main.js": "/animals-plants-distribution-system/static/js/main.dd2f89fd.js",
+    "index.html": "/animals-plants-distribution-system/index.html",
+    "main.aefa150c.css.map": "/animals-plants-distribution-system/static/css/main.aefa150c.css.map",
+    "main.dd2f89fd.js.map": "/animals-plants-distribution-system/static/js/main.dd2f89fd.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.aefa150c.css",
+    "static/js/main.dd2f89fd.js"
+  ]
+}
