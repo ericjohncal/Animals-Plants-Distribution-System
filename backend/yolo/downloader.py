@@ -20,6 +20,6 @@ if __name__ == "__main__":
         sys.exit(1)
 
     image_url = sys.argv[1]
-    filename = sys.argv[2] if len(sys.argv) > 2 else "imgdown.jpg"
+    filename = sys.argv[2] if len(sys.argv) > 2 else "image.jpg"
 
     download_image(image_url, filename)
