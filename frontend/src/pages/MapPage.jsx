@@ -111,10 +111,6 @@ export default function MapPage() {
             <div className="stat-label">Sightings</div>
           </div>
           <div className="stat">
-            <div className="stat-num">2,100</div>
-            <div className="stat-label">Species</div>
-          </div>
-          <div className="stat">
             <div className="stat-num">{contributorCount.toLocaleString()}</div>
             <div className="stat-label">Contributors</div>
           </div>
