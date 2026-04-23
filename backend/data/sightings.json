@@ -3,7 +3,7 @@
     "id": 1776949825078,
     "type": "Bird",
     "commonName": "Cardinal",
-    "suggestedName": "",
+    "suggestedName": "Cardinal",
     "city": "Austin",
     "country": "United States",
     "lat": 30.2711286,
@@ -12,8 +12,8 @@
     "date": "2026-04-23",
     "reporter": "Shams A",
     "imageUrl": "https://indianaaudubon.org/wp-content/uploads/2016/04/Cardinal_Northern_male_Ash_2012.jpg",
-    "status": "Reported",
-    "isValid": ""
+    "status": "Approved",
+    "isValid": "yes"
   },
   {
     "id": 1776949474241,
