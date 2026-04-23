@@ -1,0 +1,5 @@
+{
+  "rewrites": [
+    { "source": "/api/ebird/:path*", "destination": "/api/ebird?path=:path*" }
+  ]
+}

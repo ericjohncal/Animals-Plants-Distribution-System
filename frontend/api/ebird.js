@@ -1,4 +1,4 @@
-const { handleEbirdProxy } = require("../../src/services/ebirdProxyHandler");
+const { handleEbirdProxy } = require("../src/services/ebirdProxyHandler");
 
 module.exports = async (req, res) => {
   const rawPath = req.query.path;
