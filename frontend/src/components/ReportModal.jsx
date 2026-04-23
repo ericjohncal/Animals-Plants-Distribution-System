@@ -41,11 +41,10 @@ export default function ReportModal({ isOpen, onClose, onSubmit }) {
         const res = await fetch(`${API_BASE_URL}/api/sightings/${pendingSighting.id}`);
         if (!res.ok) return; // keep trying
         const data = await res.json();
-        if (data.status && data.status !== "Reported") {
+        if (data.status && data.status !== "Reported" && data.isValid !== "" && data.isValid != null) {
           clearInterval(pollRef.current);
           setResolvedSighting(data);
           setPhase("resolved");
-          onSubmit(data); // notify parent now that review is done
         }
       } catch {
         // network hiccup – keep polling
@@ -266,7 +265,7 @@ export default function ReportModal({ isOpen, onClose, onSubmit }) {
       </div>
   );
 
-  const isApproved = resolvedSighting?.status === "Approved";
+  const isApproved = resolvedSighting?.status === "Approved" && resolvedSighting?.isValid === "Yes";
 
   const renderResolved = () => (
       <div className="modal-status-screen">
@@ -292,6 +291,7 @@ export default function ReportModal({ isOpen, onClose, onSubmit }) {
           setPendingSighting(null);
           setResolvedSighting(null);
           setSubmitError("");
+          onSubmit(resolvedSighting); // notify parent only once user dismisses
           onClose();
         }}>
           Close
