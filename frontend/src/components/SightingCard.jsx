@@ -3,7 +3,7 @@ import "./SightingCard.css";
 import { TYPE_COLORS } from "../constants/sightingConstants";
 
 export default function SightingCard({ sighting, onClick }) {
-    const colors = TYPE_COLORS[sighting.type] || TYPE_COLORS.Other;
+    const colors = TYPE_COLORS[sighting.type] || TYPE_COLORS.Bird;
     const place = [sighting.city, sighting.country].filter(Boolean).join(", ");
 
     return (

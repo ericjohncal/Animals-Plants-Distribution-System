@@ -12,12 +12,39 @@ const DEFAULT_FILTERS = {
   status: "All",
 };
 
+function matchesTimeRange(sightingDate, timeRange) {
+  if (timeRange === "All time") return true;
+
+  const date = new Date(sightingDate);
+  if (Number.isNaN(date.getTime())) return false;
+
+  const now = new Date();
+
+  const diffMs = now - date;
+  const diffDays = diffMs / (1000 * 60 * 60 * 24);
+
+  if (timeRange === "This week") return diffDays <= 7;
+  if (timeRange === "This month") return diffDays <= 30;
+  if (timeRange === "This year") return diffDays <= 365;
+
+  return true;
+}
+
 export default function ExplorePage() {
   const [filters, setFilters] = useState(DEFAULT_FILTERS);
   const [sightings, setSightings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [selectedSighting, setSelectedSighting] = useState(null);
+
+  const contributorCount = useMemo(() => {
+    const reporters = new Set(
+      sightings
+        .map((s) => String(s.reporter || "").trim())
+        .filter(Boolean)
+    );
+    return reporters.size;
+  }, [sightings]);
 
   useEffect(() => {
     const loadSightings = async () => {
@@ -45,7 +72,9 @@ export default function ExplorePage() {
   const filtered = useMemo(() => {
     return sightings.filter((s) => {
       if (filters.category !== "All" && s.type !== filters.category) return false;
-      return !(filters.status !== "All" && s.status !== filters.status);
+      if (filters.status !== "All" && s.status !== filters.status) return false;
+      return matchesTimeRange(s.date, filters.timeRange);
+
     });
   }, [sightings, filters]);
 
@@ -65,11 +94,7 @@ export default function ExplorePage() {
             <div className="stat-label">Sightings</div>
           </div>
           <div className="stat">
-            <div className="stat-num">2,100</div>
-            <div className="stat-label">Species</div>
-          </div>
-          <div className="stat">
-            <div className="stat-num">312</div>
+            <div className="stat-num">{contributorCount.toLocaleString()}</div>
             <div className="stat-label">Contributors</div>
           </div>
         </div>
