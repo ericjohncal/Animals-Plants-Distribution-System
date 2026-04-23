@@ -4,20 +4,22 @@ import { useAuth } from "../context/AuthContext";
 
 const API_BASE_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
 
+const EMPTY_FORM = {
+  speciesName: "",
+  type: "Bird",
+  city: "",
+  country: "",
+  date: "",
+  notes: "",
+  lat: "",
+  lng: "",
+  imageUrl: "",
+};
+
 export default function ReportModal({ isOpen, onClose, onSubmit }) {
   const { user, isAuthenticated } = useAuth();
 
-  const [formData, setFormData] = useState({
-    speciesName: "",
-    type: "Bird",
-    location: "",
-    date: "",
-    notes: "",
-    lat: "",
-    lng: "",
-    imageUrl: "",
-  });
-
+  const [formData, setFormData] = useState(EMPTY_FORM);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isLocating, setIsLocating] = useState(false);
   const [submitError, setSubmitError] = useState("");
@@ -27,6 +29,47 @@ export default function ReportModal({ isOpen, onClose, onSubmit }) {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleClearForm = () => {
+    setFormData(EMPTY_FORM);
+    setSubmitError("");
+  };
+
+  const lookupCoordsFromPlace = async (city, country) => {
+    const query = encodeURIComponent(`${city}, ${country}`);
+    const response = await fetch(
+      `https://nominatim.openstreetmap.org/search?format=jsonv2&q=${query}&limit=1`
+    );
+    const data = await response.json();
+
+    if (Array.isArray(data) && data.length > 0) {
+      return {
+        lat: String(data[0].lat),
+        lng: String(data[0].lon),
+      };
+    }
+
+    return null;
+  };
+
+  const lookupPlaceFromCoords = async (latitude, longitude) => {
+    const response = await fetch(
+      `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitude}&lon=${longitude}`
+    );
+    const data = await response.json();
+
+    const address = data.address || {};
+    const city =
+      address.city ||
+      address.town ||
+      address.village ||
+      address.hamlet ||
+      address.county ||
+      "";
+    const country = address.country || "";
+
+    return { city, country };
   };
 
   const handleUseCurrentLocation = () => {
@@ -42,28 +85,21 @@ export default function ReportModal({ isOpen, onClose, onSubmit }) {
         const latitude = position.coords.latitude;
         const longitude = position.coords.longitude;
 
-        setFormData((prev) => ({
-          ...prev,
-          lat: latitude.toString(),
-          lng: longitude.toString(),
-        }));
-
         try {
-          const response = await fetch(
-            `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitude}&lon=${longitude}`
-          );
-          const data = await response.json();
+          const place = await lookupPlaceFromCoords(latitude, longitude);
 
           setFormData((prev) => ({
             ...prev,
-            location: data.display_name || `${latitude}, ${longitude}`,
+            city: place.city,
+            country: place.country,
             lat: latitude.toString(),
             lng: longitude.toString(),
           }));
         } catch {
           setFormData((prev) => ({
             ...prev,
-            location: `${latitude}, ${longitude}`,
+            lat: latitude.toString(),
+            lng: longitude.toString(),
           }));
         } finally {
           setIsLocating(false);
@@ -76,6 +112,64 @@ export default function ReportModal({ isOpen, onClose, onSubmit }) {
     );
   };
 
+  const handleAutoFillCoords = async () => {
+    const city = formData.city.trim();
+    const country = formData.country.trim();
+
+    if (!city || !country) {
+      setSubmitError("Enter both city and country to autofill latitude/longitude.");
+      return;
+    }
+
+    setIsLocating(true);
+    setSubmitError("");
+
+    try {
+      const coords = await lookupCoordsFromPlace(city, country);
+
+      if (!coords) {
+        setSubmitError("Could not find coordinates for that city and country.");
+        return;
+      }
+
+      setFormData((prev) => ({
+        ...prev,
+        lat: coords.lat,
+        lng: coords.lng,
+      }));
+    } catch {
+      setSubmitError("Could not find coordinates for that city and country.");
+    } finally {
+      setIsLocating(false);
+    }
+  };
+
+  const handleAutoFillPlace = async () => {
+    const lat = formData.lat.trim();
+    const lng = formData.lng.trim();
+
+    if (!lat || !lng) {
+      setSubmitError("Enter both latitude and longitude to autofill city/country.");
+      return;
+    }
+
+    setIsLocating(true);
+    setSubmitError("");
+
+    try {
+      const place = await lookupPlaceFromCoords(lat, lng);
+      setFormData((prev) => ({
+        ...prev,
+        city: place.city,
+        country: place.country,
+      }));
+    } catch {
+      setSubmitError("Could not find city and country for those coordinates.");
+    } finally {
+      setIsLocating(false);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSubmitError("");
@@ -85,11 +179,11 @@ export default function ReportModal({ isOpen, onClose, onSubmit }) {
       return;
     }
 
-    const hasLatLng = formData.lat !== "" && formData.lng !== "";
-    const hasLocation = formData.location.trim() !== "";
+    const hasLatLng = formData.lat.trim() !== "" && formData.lng.trim() !== "";
+    const hasPlace = formData.city.trim() !== "" && formData.country.trim() !== "";
 
-    if (!hasLatLng && !hasLocation) {
-      setSubmitError("Please enter either a location OR latitude/longitude.");
+    if (!hasLatLng && !hasPlace) {
+      setSubmitError("Please enter either city/country OR latitude/longitude.");
       return;
     }
 
@@ -99,12 +193,12 @@ export default function ReportModal({ isOpen, onClose, onSubmit }) {
       const payload = {
         type: formData.type,
         commonName: formData.speciesName,
-        location: hasLocation ? formData.location : "",
+        city: formData.city.trim(),
+        country: formData.country.trim(),
         date: formData.date,
         notes: formData.notes,
         lat: hasLatLng ? Number(formData.lat) : null,
         lng: hasLatLng ? Number(formData.lng) : null,
-        status: "Native",
         reporter: user?.name || "Anonymous",
         imageUrl: formData.imageUrl.trim(),
       };
@@ -121,18 +215,7 @@ export default function ReportModal({ isOpen, onClose, onSubmit }) {
 
       if (response.ok) {
         onSubmit(data);
-
-        setFormData({
-          speciesName: "",
-          type: "Bird",
-          location: "",
-          date: "",
-          notes: "",
-          lat: "",
-          lng: "",
-          imageUrl: "",
-        });
-
+        setFormData(EMPTY_FORM);
         onClose();
       } else {
         setSubmitError(data.message || "Failed to submit sighting.");
@@ -143,9 +226,6 @@ export default function ReportModal({ isOpen, onClose, onSubmit }) {
       setIsSubmitting(false);
     }
   };
-
-  const locationDisabled = formData.lat !== "" || formData.lng !== "";
-  const latLngDisabled = formData.location.trim() !== "";
 
   return (
     <div className="modal-overlay" onClick={onClose}>
@@ -164,7 +244,9 @@ export default function ReportModal({ isOpen, onClose, onSubmit }) {
         )}
 
         {submitError && (
-          <p style={{ color: "#b42318", marginBottom: "12px" }}>{submitError}</p>
+          <p style={{ color: "#b42318", marginBottom: "12px" }}>
+            {submitError}
+          </p>
         )}
 
         <form className="modal-form" onSubmit={handleSubmit}>
@@ -215,27 +297,28 @@ export default function ReportModal({ isOpen, onClose, onSubmit }) {
           </div>
 
           <p style={{ fontSize: "0.9rem", opacity: 0.7 }}>
-            Enter either a location OR latitude/longitude (not both).
+            You can fill either city/country or latitude/longitude. Both are editable.
           </p>
 
-          <div className="field">
-            <label>Location (Address or place name)</label>
-            <div className="location-row">
+          <div className="field-row">
+            <div className="field">
+              <label>City</label>
               <input
-                name="location"
-                value={formData.location}
+                name="city"
+                value={formData.city}
                 onChange={handleChange}
-                placeholder="e.g. Palo Duro Canyon, TX"
-                disabled={locationDisabled}
+                placeholder="e.g. Austin"
               />
-              <button
-                type="button"
-                className="autofill-btn"
-                onClick={handleUseCurrentLocation}
-                disabled={isLocating}
-              >
-                {isLocating ? "Getting location..." : "Use current location"}
-              </button>
+            </div>
+
+            <div className="field">
+              <label>Country</label>
+              <input
+                name="country"
+                value={formData.country}
+                onChange={handleChange}
+                placeholder="e.g. United States"
+              />
             </div>
           </div>
 
@@ -249,7 +332,6 @@ export default function ReportModal({ isOpen, onClose, onSubmit }) {
                 value={formData.lat}
                 onChange={handleChange}
                 placeholder="e.g. 34.9489"
-                disabled={latLngDisabled}
               />
             </div>
 
@@ -262,7 +344,6 @@ export default function ReportModal({ isOpen, onClose, onSubmit }) {
                 value={formData.lng}
                 onChange={handleChange}
                 placeholder="e.g. -101.7181"
-                disabled={latLngDisabled}
               />
             </div>
           </div>
@@ -274,6 +355,43 @@ export default function ReportModal({ isOpen, onClose, onSubmit }) {
               value={formData.notes}
               onChange={handleChange}
             />
+          </div>
+
+          <div className="field-row">
+            <button
+              type="button"
+              className="autofill-btn"
+              onClick={handleUseCurrentLocation}
+              disabled={isLocating}
+            >
+              {isLocating ? "Getting location..." : "Use current location"}
+            </button>
+
+            <button
+              type="button"
+              className="autofill-btn"
+              onClick={handleAutoFillCoords}
+              disabled={isLocating}
+            >
+              Autofill coordinates
+            </button>
+
+            <button
+              type="button"
+              className="autofill-btn"
+              onClick={handleAutoFillPlace}
+              disabled={isLocating}
+            >
+              Autofill city/country
+            </button>
+
+            <button
+              type="button"
+              className="autofill-btn"
+              onClick={handleClearForm}
+            >
+              Clear form
+            </button>
           </div>
 
           <button className="submit-btn" type="submit" disabled={isSubmitting}>

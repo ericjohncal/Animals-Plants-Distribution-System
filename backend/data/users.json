@@ -6,13 +6,5 @@
     "password": "Password",
     "location": "Lubbock, TX",
     "createdAt": "2026-04-23T05:29:37.097Z"
-  },
-  {
-    "id": "1776923376724",
-    "name": "shams A",
-    "email": "salwaeli1@icloud.com",
-    "password": "Password",
-    "location": "",
-    "createdAt": "2026-04-23T05:49:36.724Z"
   }
 ]

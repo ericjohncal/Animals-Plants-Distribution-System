@@ -47,10 +47,6 @@ export default function SightingModal({ sighting, isOpen, onClose }) {
                         <strong>Reported by:</strong> <span>{sighting.reporter || "Anonymous"}</span>
                     </div>
 
-                    <div className="sighting-modal-row">
-                        <strong>Status:</strong> <span>{sighting.status || "Unknown"}</span>
-                    </div>
-
                     {sighting.notes && (
                         <div className="sighting-modal-notes">
                             <strong>Notes:</strong>

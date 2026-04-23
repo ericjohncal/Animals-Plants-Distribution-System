@@ -4,6 +4,7 @@ import { TYPE_COLORS } from "../constants/sightingConstants";
 
 export default function SightingCard({ sighting, onClick }) {
     const colors = TYPE_COLORS[sighting.type] || TYPE_COLORS.Other;
+    const place = [sighting.city, sighting.country].filter(Boolean).join(", ");
 
     return (
         <div className="sighting-card" onClick={onClick} role="button" tabIndex={0}>
@@ -15,7 +16,7 @@ export default function SightingCard({ sighting, onClick }) {
       </span>
             <div className="sighting-name">{sighting.commonName}</div>
             <div className="sighting-meta">
-                <span>📍 {sighting.location}</span>
+                <span>📍 {place || "Unknown location"}</span>
                 <span>{sighting.date}</span>
             </div>
             {sighting.imageUrl && (
