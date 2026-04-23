@@ -229,7 +229,10 @@ export default function ReportModal({ isOpen, onClose, onSubmit }) {
 
   return (
     <div className="modal-overlay" onClick={onClose}>
-      <div className="modal" onClick={(e) => e.stopPropagation()}>
+      <div
+        className={`modal ${!isAuthenticated ? "report-modal-logged-out" : ""}`}
+        onClick={(e) => e.stopPropagation()}
+      >
         <div className="modal-header">
           <h2 className="modal-title">Report a sighting</h2>
           <button className="modal-close" onClick={onClose} type="button">
@@ -237,167 +240,169 @@ export default function ReportModal({ isOpen, onClose, onSubmit }) {
           </button>
         </div>
 
-        {!isAuthenticated && (
+        {!isAuthenticated ? (
           <p style={{ color: "#b42318", marginBottom: "12px" }}>
             You must be logged in to submit a report.
           </p>
+        ) : (
+          <>
+            {submitError && (
+              <p style={{ color: "#b42318", marginBottom: "12px" }}>
+                {submitError}
+              </p>
+            )}
+
+            <form className="modal-form" onSubmit={handleSubmit}>
+              <div className="field">
+                <label>Species name</label>
+                <input
+                  name="speciesName"
+                  value={formData.speciesName}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+
+              <div className="field">
+                <label>Image URL</label>
+                <input
+                  name="imageUrl"
+                  value={formData.imageUrl}
+                  onChange={handleChange}
+                  placeholder="https://example.com/image.jpg"
+                />
+              </div>
+
+              <div className="field-row">
+                <div className="field">
+                  <label>Type</label>
+                  <select name="type" value={formData.type} onChange={handleChange}>
+                    <option>Bird</option>
+                    <option>Mammal</option>
+                    <option>Plant</option>
+                    <option>Reptile</option>
+                    <option>Fish</option>
+                    <option>Amphibian</option>
+                    <option>Insect</option>
+                  </select>
+                </div>
+
+                <div className="field">
+                  <label>Date</label>
+                  <input
+                    type="date"
+                    name="date"
+                    value={formData.date}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+              </div>
+
+              <p style={{ fontSize: "0.9rem", opacity: 0.7 }}>
+                You can fill either city/country or latitude/longitude. Both are editable.
+              </p>
+
+              <div className="field-row">
+                <div className="field">
+                  <label>City</label>
+                  <input
+                    name="city"
+                    value={formData.city}
+                    onChange={handleChange}
+                    placeholder="e.g. Austin"
+                  />
+                </div>
+
+                <div className="field">
+                  <label>Country</label>
+                  <input
+                    name="country"
+                    value={formData.country}
+                    onChange={handleChange}
+                    placeholder="e.g. United States"
+                  />
+                </div>
+              </div>
+
+              <div className="field-row">
+                <div className="field">
+                  <label>Latitude</label>
+                  <input
+                    name="lat"
+                    type="number"
+                    step="any"
+                    value={formData.lat}
+                    onChange={handleChange}
+                    placeholder="e.g. 34.9489"
+                  />
+                </div>
+
+                <div className="field">
+                  <label>Longitude</label>
+                  <input
+                    name="lng"
+                    type="number"
+                    step="any"
+                    value={formData.lng}
+                    onChange={handleChange}
+                    placeholder="e.g. -101.7181"
+                  />
+                </div>
+              </div>
+
+              <div className="field">
+                <label>Notes</label>
+                <textarea
+                  name="notes"
+                  value={formData.notes}
+                  onChange={handleChange}
+                />
+              </div>
+
+              <div className="field-row">
+                <button
+                  type="button"
+                  className="autofill-btn"
+                  onClick={handleUseCurrentLocation}
+                  disabled={isLocating}
+                >
+                  {isLocating ? "Getting location..." : "Use current location"}
+                </button>
+
+                <button
+                  type="button"
+                  className="autofill-btn"
+                  onClick={handleAutoFillCoords}
+                  disabled={isLocating}
+                >
+                  Autofill coordinates
+                </button>
+
+                <button
+                  type="button"
+                  className="autofill-btn"
+                  onClick={handleAutoFillPlace}
+                  disabled={isLocating}
+                >
+                  Autofill city/country
+                </button>
+
+                <button
+                  type="button"
+                  className="autofill-btn"
+                  onClick={handleClearForm}
+                >
+                  Clear form
+                </button>
+              </div>
+
+              <button className="submit-btn" type="submit" disabled={isSubmitting}>
+                {isSubmitting ? "Submitting..." : "Submit sighting"}
+              </button>
+            </form>
+          </>
         )}
-
-        {submitError && (
-          <p style={{ color: "#b42318", marginBottom: "12px" }}>
-            {submitError}
-          </p>
-        )}
-
-        <form className="modal-form" onSubmit={handleSubmit}>
-          <div className="field">
-            <label>Species name</label>
-            <input
-              name="speciesName"
-              value={formData.speciesName}
-              onChange={handleChange}
-              required
-            />
-          </div>
-
-          <div className="field">
-            <label>Image URL</label>
-            <input
-              name="imageUrl"
-              value={formData.imageUrl}
-              onChange={handleChange}
-              placeholder="https://example.com/image.jpg"
-            />
-          </div>
-
-          <div className="field-row">
-            <div className="field">
-              <label>Type</label>
-              <select name="type" value={formData.type} onChange={handleChange}>
-                <option>Bird</option>
-                <option>Mammal</option>
-                <option>Plant</option>
-                <option>Reptile</option>
-                <option>Fish</option>
-                <option>Amphibian</option>
-                <option>Insect</option>
-              </select>
-            </div>
-
-            <div className="field">
-              <label>Date</label>
-              <input
-                type="date"
-                name="date"
-                value={formData.date}
-                onChange={handleChange}
-                required
-              />
-            </div>
-          </div>
-
-          <p style={{ fontSize: "0.9rem", opacity: 0.7 }}>
-            You can fill either city/country or latitude/longitude. Both are editable.
-          </p>
-
-          <div className="field-row">
-            <div className="field">
-              <label>City</label>
-              <input
-                name="city"
-                value={formData.city}
-                onChange={handleChange}
-                placeholder="e.g. Austin"
-              />
-            </div>
-
-            <div className="field">
-              <label>Country</label>
-              <input
-                name="country"
-                value={formData.country}
-                onChange={handleChange}
-                placeholder="e.g. United States"
-              />
-            </div>
-          </div>
-
-          <div className="field-row">
-            <div className="field">
-              <label>Latitude</label>
-              <input
-                name="lat"
-                type="number"
-                step="any"
-                value={formData.lat}
-                onChange={handleChange}
-                placeholder="e.g. 34.9489"
-              />
-            </div>
-
-            <div className="field">
-              <label>Longitude</label>
-              <input
-                name="lng"
-                type="number"
-                step="any"
-                value={formData.lng}
-                onChange={handleChange}
-                placeholder="e.g. -101.7181"
-              />
-            </div>
-          </div>
-
-          <div className="field">
-            <label>Notes</label>
-            <textarea
-              name="notes"
-              value={formData.notes}
-              onChange={handleChange}
-            />
-          </div>
-
-          <div className="field-row">
-            <button
-              type="button"
-              className="autofill-btn"
-              onClick={handleUseCurrentLocation}
-              disabled={isLocating}
-            >
-              {isLocating ? "Getting location..." : "Use current location"}
-            </button>
-
-            <button
-              type="button"
-              className="autofill-btn"
-              onClick={handleAutoFillCoords}
-              disabled={isLocating}
-            >
-              Autofill coordinates
-            </button>
-
-            <button
-              type="button"
-              className="autofill-btn"
-              onClick={handleAutoFillPlace}
-              disabled={isLocating}
-            >
-              Autofill city/country
-            </button>
-
-            <button
-              type="button"
-              className="autofill-btn"
-              onClick={handleClearForm}
-            >
-              Clear form
-            </button>
-          </div>
-
-          <button className="submit-btn" type="submit" disabled={isSubmitting}>
-            {isSubmitting ? "Submitting..." : "Submit sighting"}
-          </button>
-        </form>
       </div>
     </div>
   );

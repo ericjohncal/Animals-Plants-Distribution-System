@@ -5,6 +5,8 @@ import MapView from "../components/MapView";
 import Filters from "../components/Filters";
 import SightingCard from "../components/SightingCard";
 import SightingModal from "../components/SightingModal";
+import ReportModal from "../components/ReportModal";
+import SightingStatusModal from "../components/SightingStatusModal";
 
 const API_BASE_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
 
@@ -37,15 +39,8 @@ export default function MapPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [selectedSighting, setSelectedSighting] = useState(null);
-
-  const contributorCount = useMemo(() => {
-    const reporters = new Set(
-      sightings
-        .map((s) => String(s.reporter || "").trim())
-        .filter(Boolean)
-    );
-    return reporters.size;
-  }, [sightings]);
+  const [reportOpen, setReportOpen] = useState(false);
+  const [pendingSighting, setPendingSighting] = useState(null);
 
   useEffect(() => {
     const loadSightings = async () => {
@@ -80,6 +75,35 @@ export default function MapPage() {
     return () => window.removeEventListener("sighting-created", handleSightingCreated);
   }, []);
 
+  useEffect(() => {
+    if (!pendingSighting) return;
+
+    let cancelled = false;
+
+    const interval = setInterval(async () => {
+      try {
+        const response = await fetch(`${API_BASE_URL}/api/sightings/${pendingSighting.id}`);
+        if (!response.ok) return;
+
+        const updated = await response.json();
+        if (cancelled) return;
+
+        setPendingSighting(updated);
+
+        if (updated.status === "Approved" || updated.status === "Denied") {
+          clearInterval(interval);
+        }
+      } catch {
+        // keep polling
+      }
+    }, 5000);
+
+    return () => {
+      cancelled = true;
+      clearInterval(interval);
+    };
+  }, [pendingSighting?.id]);
+
   const filtered = useMemo(() => {
     return sightings.filter((s) => {
       if (filters.category !== "All" && s.type !== filters.category) return false;
@@ -90,6 +114,18 @@ export default function MapPage() {
   }, [sightings, filters]);
 
   const recentSightings = filtered.slice(0, 4);
+
+  const handleReportSubmit = (newSighting) => {
+    setSightings((prev) => [newSighting, ...prev]);
+    setPendingSighting(newSighting);
+    setReportOpen(false);
+  };
+
+  const handleCloseStatusModal = () => {
+    setPendingSighting(null);
+  };
+
+  const status = pendingSighting?.status || "Reported";
 
   return (
     <main className="main">
@@ -111,7 +147,11 @@ export default function MapPage() {
             <div className="stat-label">Sightings</div>
           </div>
           <div className="stat">
-            <div className="stat-num">{contributorCount.toLocaleString()}</div>
+            <div className="stat-num">2,100</div>
+            <div className="stat-label">Species</div>
+          </div>
+          <div className="stat">
+            <div className="stat-num">312</div>
             <div className="stat-label">Contributors</div>
           </div>
         </div>
@@ -127,7 +167,7 @@ export default function MapPage() {
         ) : error ? (
           <p>{error}</p>
         ) : (
-          <MapView sightings={filtered} />
+          <MapView sightings={filtered} onReportClick={() => setReportOpen(true)} />
         )}
       </section>
 
@@ -153,6 +193,19 @@ export default function MapPage() {
         sighting={selectedSighting}
         isOpen={!!selectedSighting}
         onClose={() => setSelectedSighting(null)}
+      />
+
+      <ReportModal
+        isOpen={reportOpen}
+        onClose={() => setReportOpen(false)}
+        onSubmit={handleReportSubmit}
+      />
+
+      <SightingStatusModal
+        sighting={pendingSighting}
+        isOpen={!!pendingSighting}
+        status={status}
+        onClose={handleCloseStatusModal}
       />
     </main>
   );

@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const fs = require("fs");
 const path = require("path");
+const { exec } = require("child_process");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -11,14 +12,20 @@ const SIGHTINGS_FILE = path.join(DATA_DIR, "sightings.json");
 const USERS_FILE = path.join(DATA_DIR, "users.json");
 const EBIRD_API_KEY = "c143ddonqbn6";
 const EBIRD_BASE_URL = "https://api.ebird.org/v2";
+const REPO_DIR = path.join(__dirname, "..");
+const GIT_BRANCH = process.env.GIT_BRANCH || "main";
 
 app.use(cors());
 app.use(express.json());
 
-function ensureFile(filePath, defaultValue) {
+function ensureDataDir() {
   if (!fs.existsSync(DATA_DIR)) {
     fs.mkdirSync(DATA_DIR, { recursive: true });
   }
+}
+
+function ensureFile(filePath, defaultValue) {
+  ensureDataDir();
 
   if (!fs.existsSync(filePath)) {
     fs.writeFileSync(filePath, JSON.stringify(defaultValue, null, 2), "utf8");
@@ -27,12 +34,18 @@ function ensureFile(filePath, defaultValue) {
 
 function readJsonFile(filePath, defaultValue) {
   ensureFile(filePath, defaultValue);
-  const raw = fs.readFileSync(filePath, "utf8");
-  return raw.trim() ? JSON.parse(raw) : defaultValue;
+
+  try {
+    const raw = fs.readFileSync(filePath, "utf8");
+    return raw.trim() ? JSON.parse(raw) : defaultValue;
+  } catch (error) {
+    console.error(`Failed to read JSON file ${filePath}:`, error.message);
+    return defaultValue;
+  }
 }
 
 function writeJsonFile(filePath, data) {
-  ensureFile(filePath, []);
+  ensureFile(filePath, Array.isArray(data) ? [] : {});
   fs.writeFileSync(filePath, JSON.stringify(data, null, 2), "utf8");
 }
 
@@ -41,16 +54,76 @@ function sanitizeUser(user) {
   return safeUser;
 }
 
+function runCommand(command) {
+  return new Promise((resolve, reject) => {
+    exec(command, { cwd: REPO_DIR }, (error, stdout, stderr) => {
+      if (error) {
+        reject(new Error(stderr || stdout || error.message));
+        return;
+      }
+
+      resolve(stdout);
+    });
+  });
+}
+
+async function pullLatestSightings() {
+  try {
+    await runCommand(`git pull origin ${GIT_BRANCH}`);
+  } catch (error) {
+    console.error("Git pull failed:", error.message);
+  }
+}
+
+async function commitAndPushSightings(message) {
+  try {
+    await runCommand("git add backend/data/sightings.json");
+
+    try {
+      await runCommand(`git commit -m "${message.replace(/"/g, '\\"')}"`);
+    } catch (commitError) {
+      if (
+        commitError.message.includes("nothing to commit") ||
+        commitError.message.includes("no changes added to commit")
+      ) {
+        return;
+      }
+
+      console.error("Commit failed:", commitError.message);
+      return;
+    }
+
+    await runCommand(`git push origin ${GIT_BRANCH}`);
+  } catch (error) {
+    console.error("Git push failed:", error.message);
+  }
+}
+
+
 app.get("/api/health", (req, res) => {
   res.json({ ok: true });
 });
 
-app.get("/api/sightings", (req, res) => {
+app.get("/api/sightings", async (req, res) => {
+  await pullLatestSightings();
   const sightings = readJsonFile(SIGHTINGS_FILE, []);
   res.json(sightings);
 });
 
-app.post("/api/sightings", (req, res) => {
+app.get("/api/sightings/:id", async (req, res) => {
+  await pullLatestSightings();
+
+  const sightings = readJsonFile(SIGHTINGS_FILE, []);
+  const sighting = sightings.find((entry) => String(entry.id) === String(req.params.id));
+
+  if (!sighting) {
+    return res.status(404).json({ message: "Sighting not found." });
+  }
+
+  return res.json(sighting);
+});
+
+app.post("/api/sightings", async (req, res) => {
   const sightings = readJsonFile(SIGHTINGS_FILE, []);
   const sighting = req.body || {};
 
@@ -68,40 +141,44 @@ app.post("/api/sightings", (req, res) => {
 
   const newSighting = {
     id: Date.now(),
-    type: sighting.type,
-    commonName: sighting.commonName,
-    suggestedName: "",
+    type: String(sighting.type),
+    commonName: String(sighting.commonName),
     city: String(sighting.city || "").trim(),
     country: String(sighting.country || "").trim(),
     lat: sighting.lat ?? null,
     lng: sighting.lng ?? null,
-    notes: sighting.notes || "",
-    date: sighting.date,
-    reporter: sighting.reporter,
-    imageUrl: sighting.imageUrl || "",
+    notes: String(sighting.notes || ""),
+    date: String(sighting.date),
+    reporter: String(sighting.reporter),
+    imageUrl: String(sighting.imageUrl || ""),
     status: "Reported",
   };
 
   sightings.unshift(newSighting);
   writeJsonFile(SIGHTINGS_FILE, sightings);
 
-  res.status(201).json(newSighting);
+  await commitAndPushSightings(`Add sighting ${newSighting.id}`);
+
+  return res.status(201).json(newSighting);
 });
 
 app.get("/api/birdcast/overlay", async (req, res) => {
   try {
-    const response = await fetch(`${EBIRD_BASE_URL}/data/obs/US/recent/notable?back=3&detail=simple`, {
-      headers: { "X-eBirdApiToken": EBIRD_API_KEY }
-    });
+    const response = await fetch(
+      `${EBIRD_BASE_URL}/data/obs/US/recent/notable?back=3&detail=simple`,
+      {
+        headers: { "X-eBirdApiToken": EBIRD_API_KEY },
+      }
+    );
 
     if (!response.ok) {
       console.error("eBird API unreachable");
       return res.status(502).json({ message: "Failed to fetch live migration data" });
     }
 
-    const sightings = await response.json();
+    const obsList = await response.json();
 
-    const regions = sightings.map((obs, index) => ({
+    const regions = obsList.map((obs, index) => ({
       id: `ebird-${index}`,
       lat: obs.lat,
       lng: obs.lng,
@@ -110,13 +187,13 @@ app.get("/api/birdcast/overlay", async (req, res) => {
       howMany: obs.howMany || 1,
     }));
 
-    res.json({
+    return res.json({
       updatedAt: new Date().toISOString(),
       regions,
     });
   } catch (error) {
     console.error("Migration data error:", error);
-    res.status(500).json({ message: "Failed to fetch live migration data" });
+    return res.status(500).json({ message: "Failed to fetch live migration data" });
   }
 });
 

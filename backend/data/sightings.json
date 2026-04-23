@@ -1,20 +1,5 @@
 [
   {
-    "id": 1776940554849,
-    "type": "Bird",
-    "commonName": "test",
-    "suggestedName": "",
-    "city": "Lubbock",
-    "country": "United States",
-    "lat": 33.59230526390037,
-    "lng": -101.86427199613567,
-    "notes": "",
-    "date": "2026-04-23",
-    "reporter": "Shams A",
-    "imageUrl": "",
-    "status": "Reported"
-  },
-  {
     "id": 1776933463329,
     "type": "Mammal",
     "commonName": "Brown Bear",
