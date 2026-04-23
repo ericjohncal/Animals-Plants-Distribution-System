@@ -278,9 +278,9 @@ export default function ReportModal({ isOpen, onClose, onSubmit }) {
                 <option>Mammal</option>
                 <option>Plant</option>
                 <option>Reptile</option>
+                <option>Fish</option>
                 <option>Amphibian</option>
                 <option>Insect</option>
-                <option>Other</option>
               </select>
             </div>
 

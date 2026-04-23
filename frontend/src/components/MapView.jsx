@@ -94,7 +94,7 @@ export default function MapView({ sightings, onReportClick }) {
             )}
 
             {sightings.map((s) => {
-              const color = TYPE_COLORS[s.type] || TYPE_COLORS.Other;
+              const color = TYPE_COLORS[s.type] || TYPE_COLORS.Bird;
               const place = [s.city, s.country].filter(Boolean).join(", ");
 
               return (

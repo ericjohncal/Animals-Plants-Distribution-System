@@ -1,29 +1,31 @@
 .filters {
   display: flex;
-  gap: 20px;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   align-items: flex-start;
-  padding: 14px 0;
+  gap: 24px;
+  justify-content: flex-start;
 }
 
 .filter-group {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
 }
 
 .filter-label {
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  color: #7a8f6a;
-  font-weight: 500;
+  font-size: 13px;
+  font-weight: 600;
+  color: #4a5a3a;
 }
 
 .chip-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 5px;
+  gap: 8px;
+}
+
+.time-filter-group {
+  margin-left: 16px;
 }
 
 .chip {
