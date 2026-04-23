@@ -21,10 +21,13 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.x"
+          python-version: '3.12'
 
       - name: Install dependencies
-        run: pip install requests
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install requests
 
       - name: Extract top entry id and imageUrl
         id: extract
@@ -45,33 +48,8 @@ jobs:
 
       - name: Commit updated files
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
+          
 
-          git add backend/yolo/image.jpg backend/yolo/workingid.txt
-
-          if git diff --cached --quiet; then
-            echo "No changes to commit"
-          else
-            git commit -m "Update YOLO image and working ID from latest sighting"
-            git push
-          fi
-  detect:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
 
       - name: Run detection
         run: |
@@ -80,10 +58,16 @@ jobs:
 
       - name: Commit results back to repo
         run: |
-          cd backend/yolo
-          git config --global user.name "github-actions"
-          git config --global user.email "actions@github.com"
-          git add results.txt
-          git commit -m "Update results.txt" || echo "No changes"
-          git push
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add backend/yolo/image.jpg backend/yolo/workingid.txt
+          git add backend/yolo/results.txt
+
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Update YOLO image and working ID from latest sighting"
+            git push
+          fi
 
