@@ -57,6 +57,36 @@ jobs:
           cd backend/yolo
           python yolo_detect.py --model=runs/detect/train/weights/best.pt --source=image.jpg
 
+      - name: Update sightings.json status and suggestedName
+        run: |
+          WORKING_ID=$(cat backend/yolo/workingid.txt)
+          DETECTED=$(cat backend/yolo/results.txt | xargs)
+
+          COMMON_NAME=$(jq -r ".[] | select(.id == $WORKING_ID) | .commonName" backend/data/sightings.json)
+
+          echo "Working ID: $WORKING_ID"
+          echo "Detected: $DETECTED"
+          echo "Common Name: $COMMON_NAME"
+
+          if [ "$DETECTED" = "$COMMON_NAME" ]; then
+            NEW_STATUS="Approved"
+          else
+            NEW_STATUS="Denied"
+          fi
+
+          jq --argjson id "$WORKING_ID" \
+             --arg status "$NEW_STATUS" \
+             --arg suggested "$DETECTED" '
+            map(
+              if .id == $id
+              then .status = $status | .suggestedName = $suggested
+              else .
+              end
+            )
+          ' backend/data/sightings.json > backend/data/sightings_tmp.json
+
+          mv backend/data/sightings_tmp.json backend/data/sightings.json
+
       - name: Commit results back to repo
         run: |
           git config user.name "github-actions[bot]"
@@ -64,6 +94,7 @@ jobs:
 
           git add backend/yolo/image.jpg backend/yolo/workingid.txt
           git add backend/yolo/results.txt
+          git add backend/data/sightings.json
 
           if git diff --cached --quiet; then
             echo "No changes to commit"
