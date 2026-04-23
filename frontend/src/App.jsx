@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./App.css";
 import Navbar from "./components/Navbar";
 import MapTab from "./components/MapTab";
+import MigrationTab from "./components/MigrationTab";
 import seedSightings from "./data/sightings.json";
 
 export default function App() {
@@ -13,9 +14,7 @@ export default function App() {
       <Navbar activeTab={activeTab} onTabChange={setActiveTab} />
       <main className="main">
         {activeTab === "map" && <MapTab sightings={sightings} />}
-        {activeTab === "migration" && (
-          <div className="placeholder">Migration tab — coming next.</div>
-        )}
+        {activeTab === "migration" && <MigrationTab />}
         {activeTab === "report" && (
           <div className="placeholder">Report tab — coming next.</div>
         )}
