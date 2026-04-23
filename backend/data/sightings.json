@@ -3,7 +3,7 @@
     "id": 1776933463329,
     "type": "Mammal",
     "commonName": "Brown Bear",
-    "suggestedName": "",
+    "suggestedName": "Sparrow",
     "city": "Colorado Springs",
     "country": "United States",
     "lat": 38.8339578,
@@ -12,7 +12,7 @@
     "date": "2026-04-07",
     "reporter": "Shams A",
     "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/7/71/2010-kodiak-bear-1.jpg",
-    "status": "Approved"
+    "status": "Denied"
   },
   {
     "id": 1776933463330,
