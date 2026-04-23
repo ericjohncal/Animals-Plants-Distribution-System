@@ -1,9 +1,7 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 export function useEbird(fetcher, key) {
   const [state, setState] = useState({ loading: !!key, data: null, error: null });
-  const mounted = useRef(true);
-  useEffect(() => () => { mounted.current = false; }, []);
 
   const serialized = JSON.stringify(key);
   useEffect(() => {
