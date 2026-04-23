@@ -143,6 +143,7 @@ app.post("/api/sightings", async (req, res) => {
     id: Date.now(),
     type: String(sighting.type),
     commonName: String(sighting.commonName),
+    suggestedName: "",
     city: String(sighting.city || "").trim(),
     country: String(sighting.country || "").trim(),
     lat: sighting.lat ?? null,
