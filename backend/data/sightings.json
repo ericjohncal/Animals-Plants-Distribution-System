@@ -2,7 +2,7 @@
   {
     "id": 1776943064202,
     "type": "Bird",
-    "commonName": "jhda",
+    "commonName": "Cardinal",
     "city": "Austin",
     "country": "United States",
     "lat": 30.2711286,
@@ -10,8 +10,10 @@
     "notes": "",
     "date": "2026-04-16",
     "reporter": "Shams A",
-    "imageUrl": "",
-    "status": "Reported"
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/7/71/2010-kodiak-bear-1.jpg",
+    "status": "Reported",
+    "suggestedName": "",
+    "isValid": ""
   },
   {
     "id": 1776942489191,
