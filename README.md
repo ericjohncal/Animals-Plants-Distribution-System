@@ -1,4 +1,4 @@
-# WildAtlas — Wildlife & Plant Sighting Tracker
+# Wild Track — Wildlife & Plant Sighting Tracker
 
 A citizen-science web app where users report local wildlife and plant sightings, get AI-powered species identification, and explore sightings and bird migration patterns on an interactive map.
 
@@ -91,7 +91,7 @@ Animals-Plants-Distribution-System/
 │   │   └── demo-photos/           # robin.jpg, cardinal.jpg, squirrel.jpg
 │   ├── src/
 │   │   ├── components/
-│   │   │   ├── Navbar.jsx         # WildAtlas brand + Map/Migration/Report pill tabs
+│   │   │   ├── Navbar.jsx         # Wild Track brand + Map/Migration/Report pill tabs
 │   │   │   ├── MapTab.jsx         # All sightings as Leaflet markers, species filter
 │   │   │   ├── MigrationTab.jsx   # CircleMarker swap on month slider drag
 │   │   │   └── ReportTab.jsx      # Photo + geolocation + AI + submit flow
@@ -145,7 +145,7 @@ See [`FUTURE_WORK.md`](./FUTURE_WORK.md) for the planned production stack, inclu
 
 ## About
 
-WildAtlas is a citizen-science prototype for reporting and tracking local wildlife sightings, built for the **TTU CS Senior Capstone, Spring 2026** (Whitacre College of Engineering). Seed data is centered around Lubbock, TX (33.5779°N, 101.8552°W).
+Wild Track is a citizen-science prototype for reporting and tracking local wildlife sightings, built for the **TTU CS Senior Capstone, Spring 2026** (Whitacre College of Engineering). Seed data is centered around Lubbock, TX (33.5779°N, 101.8552°W).
 
 ---
 

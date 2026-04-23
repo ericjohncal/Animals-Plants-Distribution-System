@@ -13,7 +13,7 @@ export default function Navbar({ activeTab, onTabChange }) {
         type="button"
         className="brand"
         onClick={() => onTabChange("map")}
-        aria-label="WildAtlas home"
+        aria-label="Wild Track home"
       >
         <span className="brand-mark" aria-hidden="true">
           <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
@@ -22,7 +22,7 @@ export default function Navbar({ activeTab, onTabChange }) {
           </svg>
         </span>
         <span className="brand-text">
-          <span className="brand-name">WildAtlas</span>
+          <span className="brand-name">Wild Track</span>
           <span className="brand-sub">Community Sightings Map</span>
         </span>
       </button>

@@ -35,7 +35,7 @@ export default function App() {
           <section className="tab-section">
             <div className="hero">
               <h1 className="hero-heading">
-                About <em>WildAtlas</em>.
+                About <em>Wild Track</em>.
               </h1>
               <p className="hero-sub">
                 A community-powered database mapping the distribution of plants

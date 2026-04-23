@@ -142,7 +142,7 @@ export default function ReportTab({ onSubmit }) {
       reporter: "You",
       notes: speciesGuess
         ? `Field guess: ${speciesGuess}.`
-        : "Submitted via WildAtlas demo.",
+        : "Submitted via Wild Track demo.",
     };
     onSubmit(sighting);
     setPhoto(null);

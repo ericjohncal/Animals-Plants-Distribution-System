@@ -1,6 +1,6 @@
 # Future Work
 
-WildAtlas is currently a demo prototype: no backend, no persistence, no auth, no tests, no deployment. The list below is what a production version would need.
+Wild Track is currently a demo prototype: no backend, no persistence, no auth, no tests, no deployment. The list below is what a production version would need.
 
 ## Backend & Data
 - **API server**: FastAPI (Python) or Node.js + Express, REST + OpenAPI
