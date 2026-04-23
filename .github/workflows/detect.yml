@@ -28,7 +28,7 @@ jobs:
       - name: Run detection
         run: |
           cd backend/yolo
-          python yolo_detect.py --model=runs/detect/train/weights/best.pt --source=images/image.jpg
+          python yolo_detect.py --model=runs/detect/train/weights/best.pt --source=image.jpg
 
       - name: Upload results
         uses: actions/upload-artifact@v4
