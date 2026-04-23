@@ -1,6 +1,8 @@
 name: Run YOLO Detection
-
+  
 on:
+  repository_dispatch:
+    types: [yolo-update]
   workflow_dispatch:   # allows manual trigger
   push:
     paths:

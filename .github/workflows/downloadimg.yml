@@ -56,3 +56,10 @@ jobs:
             git commit -m "Update YOLO image and working ID from latest sighting"
             git push
           fi
+      - name: Trigger YOLO workflow
+        run: |
+          curl -X POST \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Accept: application/vnd.github+json" \
+            https://api.github.com/repos/${{ github.repository }}/dispatches \
+            -d '{"event_type":"yolo-update"}'
