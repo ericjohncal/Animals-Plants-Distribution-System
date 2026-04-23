@@ -57,7 +57,7 @@ jobs:
           cd backend/yolo
           python yolo_detect.py --model=runs/detect/train/weights/best.pt --source=image.jpg
 
-      - name: Update sightings.json status
+      - name: Update sightings.json status and suggestedName
         run: |
           WORKING_ID=$(cat backend/yolo/workingid.txt)
           DETECTED=$(cat backend/yolo/results.txt | xargs)
@@ -74,8 +74,15 @@ jobs:
             NEW_STATUS="Denied"
           fi
 
-          jq --argjson id "$WORKING_ID" --arg status "$NEW_STATUS" '
-            map(if .id == $id then .status = $status else . end)
+          jq --argjson id "$WORKING_ID" \
+             --arg status "$NEW_STATUS" \
+             --arg suggested "$DETECTED" '
+            map(
+              if .id == $id
+              then .status = $status | .suggestedName = $suggested
+              else .
+              end
+            )
           ' backend/data/sightings.json > backend/data/sightings_tmp.json
 
           mv backend/data/sightings_tmp.json backend/data/sightings.json
