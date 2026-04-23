@@ -33,6 +33,15 @@ function matchesTimeRange(sightingDate, timeRange) {
   return true;
 }
 
+function hasValidCoords(s) {
+  return (
+      s.lat != null &&
+      s.lng != null &&
+      !Number.isNaN(Number(s.lat)) &&
+      !Number.isNaN(Number(s.lng))
+  );
+}
+
 export default function MapPage() {
   const [filters, setFilters] = useState(DEFAULT_FILTERS);
   const [sightings, setSightings] = useState([]);
@@ -41,6 +50,15 @@ export default function MapPage() {
   const [selectedSighting, setSelectedSighting] = useState(null);
   const [reportOpen, setReportOpen] = useState(false);
   const [pendingSighting, setPendingSighting] = useState(null);
+
+  const contributorCount = useMemo(() => {
+    const reporters = new Set(
+        sightings
+            .map((s) => String(s.reporter || "").trim())
+            .filter(Boolean)
+    );
+    return reporters.size;
+  }, [sightings]);
 
   useEffect(() => {
     const loadSightings = async () => {
@@ -109,9 +127,11 @@ export default function MapPage() {
       if (filters.category !== "All" && s.type !== filters.category) return false;
       if (filters.status !== "All" && s.status !== filters.status) return false;
       return matchesTimeRange(s.date, filters.timeRange);
-
     });
   }, [sightings, filters]);
+
+  // Only pass sightings with valid coordinates to the map
+  const mappableSightings = useMemo(() => filtered.filter(hasValidCoords), [filtered]);
 
   const recentSightings = filtered.slice(0, 4);
 
@@ -128,85 +148,81 @@ export default function MapPage() {
   const status = pendingSighting?.status || "Reported";
 
   return (
-    <main className="main">
-      <section className="hero">
-        <div className="hero-text">
-          <h1 className="hero-heading">
-            Track where <em>nature</em> is thriving.
-          </h1>
-          <p className="hero-sub">
-            A community-powered database mapping the distribution of plants and
-            animals across ecosystems. Contribute sightings, explore patterns,
-            support conservation.
-          </p>
-        </div>
-
-        <div className="hero-stats">
-          <div className="stat">
-            <div className="stat-num">{sightings.length.toLocaleString()}</div>
-            <div className="stat-label">Sightings</div>
+      <main className="main">
+        <section className="hero">
+          <div className="hero-text">
+            <h1 className="hero-heading">
+              Track where <em>nature</em> is thriving.
+            </h1>
+            <p className="hero-sub">
+              A community-powered database mapping the distribution of plants and
+              animals across ecosystems. Contribute sightings, explore patterns,
+              support conservation.
+            </p>
           </div>
-          <div className="stat">
-            <div className="stat-num">2,100</div>
-            <div className="stat-label">Species</div>
+
+          <div className="hero-stats">
+            <div className="stat">
+              <div className="stat-num">{sightings.length.toLocaleString()}</div>
+              <div className="stat-label">Sightings</div>
+            </div>
+            <div className="stat">
+              <div className="stat-num">{contributorCount.toLocaleString()}</div>
+              <div className="stat-label">Contributors</div>
+            </div>
           </div>
-          <div className="stat">
-            <div className="stat-num">312</div>
-            <div className="stat-label">Contributors</div>
+        </section>
+
+        <section className="section">
+          <Filters filters={filters} onChange={setFilters} />
+        </section>
+
+        <section className="section">
+          {loading ? (
+              <p>Loading sightings...</p>
+          ) : error ? (
+              <p>{error}</p>
+          ) : (
+              <MapView sightings={mappableSightings} onReportClick={() => setReportOpen(true)} />
+          )}
+        </section>
+
+        <section className="section">
+          <div className="section-header">
+            <h2 className="section-title">Recent sightings</h2>
+            <Link className="see-all" to="/explore">
+              Show all →
+            </Link>
           </div>
-        </div>
-      </section>
+          <div className="cards-grid">
+            {recentSightings.map((s) => (
+                <SightingCard
+                    key={s.id}
+                    sighting={s}
+                    onClick={() => setSelectedSighting(s)}
+                />
+            ))}
+          </div>
+        </section>
 
-      <section className="section">
-        <Filters filters={filters} onChange={setFilters} />
-      </section>
+        <SightingModal
+            sighting={selectedSighting}
+            isOpen={!!selectedSighting}
+            onClose={() => setSelectedSighting(null)}
+        />
 
-      <section className="section">
-        {loading ? (
-          <p>Loading sightings...</p>
-        ) : error ? (
-          <p>{error}</p>
-        ) : (
-          <MapView sightings={filtered} onReportClick={() => setReportOpen(true)} />
-        )}
-      </section>
+        <ReportModal
+            isOpen={reportOpen}
+            onClose={() => setReportOpen(false)}
+            onSubmit={handleReportSubmit}
+        />
 
-      <section className="section">
-        <div className="section-header">
-          <h2 className="section-title">Recent sightings</h2>
-          <Link className="see-all" to="/explore">
-  Show all →
-</Link>
-        </div>
-        <div className="cards-grid">
-          {recentSightings.map((s) => (
-            <SightingCard
-              key={s.id}
-              sighting={s}
-              onClick={() => setSelectedSighting(s)}
-            />
-          ))}
-        </div>
-      </section>
-
-      <SightingModal
-        sighting={selectedSighting}
-        isOpen={!!selectedSighting}
-        onClose={() => setSelectedSighting(null)}
-      />
-
-      <ReportModal
-        isOpen={reportOpen}
-        onClose={() => setReportOpen(false)}
-        onSubmit={handleReportSubmit}
-      />
-
-      <SightingStatusModal
-        sighting={pendingSighting}
-        isOpen={!!pendingSighting}
-        status={status}
-        onClose={handleCloseStatusModal}
-      />
-    </main>
+        <SightingStatusModal
+            sighting={pendingSighting}
+            isOpen={!!pendingSighting}
+            status={status}
+            onClose={handleCloseStatusModal}
+        />
+      </main>
   );
 }
