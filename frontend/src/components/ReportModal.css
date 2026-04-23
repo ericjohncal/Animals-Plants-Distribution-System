@@ -2,7 +2,7 @@
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.45);
-  z-index: 200;
+  z-index: 9999;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -178,4 +178,19 @@
 .modal-success p {
   font-size: 15px;
   font-weight: 500;
+}
+
+.image-preview {
+  margin-top: 4px;
+  border: 1px solid #dde5d4;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #f8faf6;
+}
+
+.image-preview img {
+  display: block;
+  width: 100%;
+  max-height: 220px;
+  object-fit: cover;
 }

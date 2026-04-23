@@ -1,0 +1,143 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap');
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'DM Sans', sans-serif;
+    background: #f4f7f0;
+    color: #1a2e0e;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+}
+
+.app {
+    min-height: 100vh;
+}
+
+.main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 28px 60px;
+}
+
+/* Hero */
+.hero {
+    padding: 36px 0 8px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+}
+
+.hero-text {
+    flex: 1;
+    min-width: 280px;
+}
+
+.hero-heading {
+    font-family: 'Playfair Display', serif;
+    font-size: 38px;
+    font-weight: 600;
+    line-height: 1.18;
+    letter-spacing: -0.5px;
+    color: #1a2e0e;
+    margin-bottom: 12px;
+}
+
+.hero-heading em {
+    font-style: italic;
+    color: #3b6d11;
+}
+
+.hero-sub {
+    font-size: 15px;
+    color: #5a7048;
+    font-weight: 300;
+    max-width: 480px;
+    line-height: 1.65;
+}
+
+.hero-stats {
+    display: flex;
+    gap: 12px;
+    flex-shrink: 0;
+}
+
+.stat {
+    background: #fff;
+    border: 1px solid #dde5d4;
+    border-radius: 10px;
+    padding: 12px 18px;
+    text-align: center;
+    min-width: 90px;
+}
+
+.stat-num {
+    font-size: 24px;
+    font-weight: 500;
+    color: #3b6d11;
+    line-height: 1;
+}
+
+.stat-label {
+    font-size: 10px;
+    color: #7a8f6a;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-top: 4px;
+}
+
+/* Sections */
+.section {
+    margin-top: 20px;
+}
+
+.section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+}
+
+.section-title {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: #7a8f6a;
+    font-weight: 500;
+    font-family: 'DM Sans', sans-serif;
+}
+
+.see-all {
+    font-size: 12px;
+    color: #3b6d11;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+/* Cards grid */
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 12px;
+}
+
+/* Leaflet overrides */
+.leaflet-container {
+    font-family: 'DM Sans', sans-serif;
+}
+
+.leaflet-popup-content-wrapper {
+    border-radius: 10px !important;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.12) !important;
+    border: 1px solid #dde5d4 !important;
+}
+
+.leaflet-popup-tip {
+    background: #fff !important;
+}

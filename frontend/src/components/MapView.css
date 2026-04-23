@@ -146,3 +146,21 @@
   background: #2d5409;
   transform: translateY(-1px);
 }
+
+.map-popup {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 160px;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.popup-image {
+  width: 100%;
+  max-width: 220px;
+  max-height: 160px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 6px;
+  border: 1px solid #dde5d4;
+}

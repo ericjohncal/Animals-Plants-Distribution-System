@@ -50,6 +50,9 @@ export default function MapView({ sightings, onReportClick }) {
               >
                 <Popup>
                   <div className="map-popup">
+                    {s.image && (
+                      <img className="popup-image" src={s.image} alt={s.commonName} />
+                    )}
                     <span
                       className="popup-tag"
                       style={{ background: color.bg, color: color.text }}
@@ -68,20 +71,15 @@ export default function MapView({ sightings, onReportClick }) {
           })}
         </MapContainer>
 
-        {/* Legend */}
         <div className="map-legend">
           {Object.entries(TYPE_COLORS).map(([type, colors]) => (
             <div key={type} className="legend-item">
-              <span
-                className="legend-dot"
-                style={{ background: colors.marker }}
-              />
+              <span className="legend-dot" style={{ background: colors.marker }} />
               {type}
             </div>
           ))}
         </div>
 
-        {/* Floating report button on map */}
         <button className="map-fab" onClick={onReportClick}>
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
             <path
