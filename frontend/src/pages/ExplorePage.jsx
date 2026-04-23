@@ -1,7 +1,5 @@
-import React, { useState, useMemo, useEffect } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useMemo, useState } from "react";
 import "../App.css";
-import MapView from "../components/MapView";
 import Filters from "../components/Filters";
 import SightingCard from "../components/SightingCard";
 import SightingModal from "../components/SightingModal";
@@ -14,7 +12,7 @@ const DEFAULT_FILTERS = {
   status: "All",
 };
 
-export default function MapPage() {
+export default function ExplorePage() {
   const [filters, setFilters] = useState(DEFAULT_FILTERS);
   const [sightings, setSightings] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -28,7 +26,6 @@ export default function MapPage() {
 
       try {
         const response = await fetch(`${API_BASE_URL}/api/sightings`);
-
         if (response.ok) {
           const data = await response.json();
           setSightings(data);
@@ -45,15 +42,6 @@ export default function MapPage() {
     loadSightings();
   }, []);
 
-  useEffect(() => {
-    const handleSightingCreated = (event) => {
-      setSightings((prev) => [event.detail, ...prev]);
-    };
-
-    window.addEventListener("sighting-created", handleSightingCreated);
-    return () => window.removeEventListener("sighting-created", handleSightingCreated);
-  }, []);
-
   const filtered = useMemo(() => {
     return sightings.filter((s) => {
       if (filters.category !== "All" && s.type !== filters.category) return false;
@@ -61,19 +49,13 @@ export default function MapPage() {
     });
   }, [sightings, filters]);
 
-  const recentSightings = filtered.slice(0, 4);
-
   return (
     <main className="main">
       <section className="hero">
         <div className="hero-text">
-          <h1 className="hero-heading">
-            Track where <em>nature</em> is thriving.
-          </h1>
+          <h1 className="hero-heading">Explore all sightings</h1>
           <p className="hero-sub">
-            A community-powered database mapping the distribution of plants and
-            animals across ecosystems. Contribute sightings, explore patterns,
-            support conservation.
+            Browse the full community database of plant and animal sightings.
           </p>
         </div>
 
@@ -103,26 +85,16 @@ export default function MapPage() {
         ) : error ? (
           <p>{error}</p>
         ) : (
-          <MapView sightings={filtered} />
+          <div className="cards-grid">
+            {filtered.map((s) => (
+              <SightingCard
+                key={s.id}
+                sighting={s}
+                onClick={() => setSelectedSighting(s)}
+              />
+            ))}
+          </div>
         )}
-      </section>
-
-      <section className="section">
-        <div className="section-header">
-          <h2 className="section-title">Recent sightings</h2>
-          <Link className="see-all" to="/explore">
-  Show all →
-</Link>
-        </div>
-        <div className="cards-grid">
-          {recentSightings.map((s) => (
-            <SightingCard
-              key={s.id}
-              sighting={s}
-              onClick={() => setSelectedSighting(s)}
-            />
-          ))}
-        </div>
       </section>
 
       <SightingModal

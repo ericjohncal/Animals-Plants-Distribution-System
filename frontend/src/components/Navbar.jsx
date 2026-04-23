@@ -21,7 +21,6 @@ export default function Navbar({ onReportClick, onAuthClick }) {
                     Map
                 </NavLink>
                 <NavLink to="/explore">Explore</NavLink>
-                <NavLink to="/about">About</NavLink>
             </div>
 
             <div className="navbar-actions">
