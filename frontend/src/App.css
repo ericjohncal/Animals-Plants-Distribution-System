@@ -1,143 +1,135 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap');
-
-*, *::before, *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+:root {
+  --bg: #FAFAF7;
+  --text: #212121;
+  --accent: #C49A6C;
+  --accent-soft: rgba(196, 154, 108, 0.12);
+  --muted: #6b6b66;
+  --card: #ffffff;
+  --border: #e6e3dc;
+  --radius: 12px;
 }
 
-body {
-  font-family: 'DM Sans', sans-serif;
-  background: #f4f7f0;
-  color: #1a2e0e;
-  line-height: 1.6;
+* { box-sizing: border-box; }
+
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  font-family: 'Montserrat', system-ui, -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
   -webkit-font-smoothing: antialiased;
 }
 
+button { font-family: inherit; }
+
 .app {
   min-height: 100vh;
-}
-
-.main {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 28px 60px;
-}
-
-/* Hero */
-.hero {
-  padding: 36px 0 8px;
   display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 24px;
-  flex-wrap: wrap;
+  flex-direction: column;
 }
 
-.hero-text {
-  flex: 1;
-  min-width: 280px;
-}
-
-.hero-heading {
-  font-family: 'Playfair Display', serif;
-  font-size: 38px;
-  font-weight: 600;
-  line-height: 1.18;
-  letter-spacing: -0.5px;
-  color: #1a2e0e;
-  margin-bottom: 12px;
-}
-
-.hero-heading em {
-  font-style: italic;
-  color: #3b6d11;
-}
-
-.hero-sub {
-  font-size: 15px;
-  color: #5a7048;
-  font-weight: 300;
-  max-width: 480px;
-  line-height: 1.65;
-}
-
-.hero-stats {
-  display: flex;
-  gap: 12px;
-  flex-shrink: 0;
-}
-
-.stat {
-  background: #fff;
-  border: 1px solid #dde5d4;
-  border-radius: 10px;
-  padding: 12px 18px;
-  text-align: center;
-  min-width: 90px;
-}
-
-.stat-num {
-  font-size: 24px;
-  font-weight: 500;
-  color: #3b6d11;
-  line-height: 1;
-}
-
-.stat-label {
-  font-size: 10px;
-  color: #7a8f6a;
-  text-transform: uppercase;
-  letter-spacing: 0.8px;
-  margin-top: 4px;
-}
-
-/* Sections */
-.section {
-  margin-top: 20px;
-}
-
-.section-header {
+/* ---------- Navbar ---------- */
+.navbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 14px;
+  padding: 14px 32px;
+  background: #fff;
+  border-bottom: 1px solid var(--border);
 }
 
-.section-title {
-  font-size: 12px;
-  text-transform: uppercase;
-  letter-spacing: 1.2px;
-  color: #7a8f6a;
-  font-weight: 500;
-  font-family: 'DM Sans', sans-serif;
+.navbar-brand {
+  font-weight: 700;
+  font-size: 20px;
+  letter-spacing: -0.01em;
 }
 
-.see-all {
-  font-size: 12px;
-  color: #3b6d11;
+.navbar-tabs {
+  display: flex;
+  gap: 4px;
+}
+
+.tab-btn {
+  font-size: 14px;
   font-weight: 500;
+  padding: 8px 18px;
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  border-radius: 999px;
   cursor: pointer;
+  transition: background 0.15s, color 0.15s;
 }
 
-/* Cards grid */
-.cards-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+.tab-btn:hover { background: var(--accent-soft); color: var(--text); }
+.tab-btn.active { background: var(--accent); color: #fff; }
+
+/* ---------- Layout ---------- */
+.main {
+  flex: 1;
+  padding: 24px 32px;
+  display: flex;
+  flex-direction: column;
+}
+
+.tab-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ---------- Filter row ---------- */
+.filter-row {
+  display: flex;
+  align-items: center;
   gap: 12px;
 }
 
-/* Leaflet overrides */
-.leaflet-container {
-  font-family: 'DM Sans', sans-serif;
+.filter-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--muted);
 }
 
-.leaflet-popup-content-wrapper {
-  border-radius: 10px !important;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.12) !important;
-  border: 1px solid #dde5d4 !important;
+.filter-select {
+  font-family: inherit;
+  font-size: 14px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: #fff;
+  color: var(--text);
+  cursor: pointer;
 }
 
-.leaflet-popup-tip {
-  background: #fff !important;
+.filter-count {
+  margin-left: auto;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+/* ---------- Map ---------- */
+.map-container {
+  height: 70vh;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+/* ---------- Popup ---------- */
+.popup { display: flex; flex-direction: column; gap: 4px; min-width: 160px; }
+.popup-img { display: block; width: 120px; height: 90px; object-fit: cover; border-radius: 6px; margin-bottom: 4px; }
+.popup-species { font-size: 14px; font-weight: 600; }
+.popup-sci { font-size: 12px; color: var(--muted); font-style: italic; }
+.popup-meta { font-size: 11px; color: var(--muted); display: flex; gap: 4px; }
+.popup-notes { font-size: 12px; margin: 4px 0 0 0; }
+
+/* ---------- Placeholder ---------- */
+.placeholder {
+  padding: 60px 24px;
+  text-align: center;
+  color: var(--muted);
+  background: #fff;
+  border: 1px dashed var(--border);
+  border-radius: var(--radius);
 }

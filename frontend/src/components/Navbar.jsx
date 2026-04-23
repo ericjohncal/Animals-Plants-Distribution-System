@@ -1,29 +1,27 @@
 import React from "react";
-import { Link, NavLink } from "react-router-dom";
-import "./Navbar.css";
 
-export default function Navbar({ onReportClick }) {
-    return (
-        <nav className="navbar">
-            <Link to="/" className="navbar-logo">
-                <div className="logo-icon">🌿</div>
-                <div>
-                    <div className="logo-name">WildAtlas</div>
-                    <div className="logo-sub">Community sightings map</div>
-                </div>
-            </Link>
+const TABS = [
+  { id: "map", label: "Map" },
+  { id: "migration", label: "Migration" },
+  { id: "report", label: "Report" },
+];
 
-            <div className="navbar-links">
-                <NavLink to="/" end>
-                    Map
-                </NavLink>
-                <NavLink to="/explore">Explore</NavLink>
-                <NavLink to="/about">About</NavLink>
-            </div>
-
-            <button className="report-btn" onClick={onReportClick}>
-                Report sighting
-            </button>
-        </nav>
-    );
+export default function Navbar({ activeTab, onTabChange }) {
+  return (
+    <nav className="navbar">
+      <div className="navbar-brand">WildAtlas</div>
+      <div className="navbar-tabs">
+        {TABS.map((t) => (
+          <button
+            key={t.id}
+            type="button"
+            className={`tab-btn ${activeTab === t.id ? "active" : ""}`}
+            onClick={() => onTabChange(t.id)}
+          >
+            {t.label}
+          </button>
+        ))}
+      </div>
+    </nav>
+  );
 }
