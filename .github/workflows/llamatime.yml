@@ -1,0 +1,41 @@
+name: Generate LLM Output and Commit
+
+on:
+  workflow_dispatch:
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Call Ollama
+        id: call_llm
+        run: |
+          mkdir -p backend/yolo
+
+          RESPONSE=$(curl -s -X POST "http://75.111.218.179:11434/api/generate" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "model": "mistral:7b-instruct",
+              "prompt": "Write a short motivational quote",
+              "stream": false
+            }')
+
+          # extract just the "response" field (requires jq)
+          TEXT=$(echo "$RESPONSE" | jq -r '.response')
+
+          echo "$TEXT" > backend/yolo/output.txt
+
+      - name: Commit changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add backend/yolo/output.txt
+
+          git commit -m "Add LLM-generated output" || echo "No changes to commit"
+
+          git push
