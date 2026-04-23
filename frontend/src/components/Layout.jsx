@@ -27,7 +27,10 @@ export default function Layout() {
       <ReportModal
         isOpen={reportModalOpen}
         onClose={() => setReportModalOpen(false)}
-        onSubmit={() => setReportModalOpen(false)}
+        onSubmit={(sighting) => {
+          window.dispatchEvent(new CustomEvent("sighting-created", { detail: sighting }));
+          setReportModalOpen(false);
+        }}
       />
 
       <AuthModal

@@ -1,0 +1,30 @@
+[
+  {
+    "id": 1776924957844,
+    "type": "Mammal",
+    "commonName": "Dog",
+    "scientificName": "",
+    "location": "Marsha Sharp Freeway, Lubbock, Lubbock County, Texas, 79401, United States",
+    "lat": 33.592292360646645,
+    "lng": -101.8642961027107,
+    "notes": "cute dog",
+    "date": "2026-04-23",
+    "status": "Native",
+    "reporter": "shams A",
+    "imageUrl": "https://hips.hearstapps.com/hmg-prod/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop=1xw:0.74975xh;0,0.190xh"
+  },
+  {
+    "id": 1776924713169,
+    "type": "Bird",
+    "commonName": "Pigeon",
+    "scientificName": "",
+    "location": "Marsha Sharp Freeway, Lubbock, Lubbock County, Texas, 79401, United States",
+    "lat": 33.59222640829475,
+    "lng": -101.86423165451357,
+    "notes": "",
+    "date": "2026-04-23",
+    "status": "Native",
+    "reporter": "shams A",
+    "imageUrl": "https://www.allaboutbirds.org/guide/assets/photo/308074031-480px.jpg"
+  }
+]
