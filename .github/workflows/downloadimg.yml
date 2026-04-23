@@ -70,7 +70,10 @@ jobs:
               \"stream\": false
             }")
 
-          ANSWER=$(echo "$RESPONSE" | jq -r '.response' | tr '[:upper:]' '[:lower:]')
+          ANSWER=$(echo "$RESPONSE" | jq -r '.response' \
+          | tr '[:upper:]' '[:lower:]' \
+          | grep -oE 'yes|no' \
+          | head -n 1)
 
           jq --arg id "$WORKING_ID" \
             --arg val "$ANSWER" \
