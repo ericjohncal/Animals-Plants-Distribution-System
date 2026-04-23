@@ -152,6 +152,7 @@ app.post("/api/sightings", async (req, res) => {
     reporter: String(sighting.reporter),
     imageUrl: String(sighting.imageUrl || ""),
     status: "Reported",
+    isValid: "",
   };
 
   sightings.unshift(newSighting);
