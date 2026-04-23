@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { MapContainer, TileLayer, CircleMarker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import "./MapView.css";
-import { TYPE_COLORS } from "../data/sightings";
+import { TYPE_COLORS } from "../constants/sightingConstants";
 
 export default function MapView({ sightings, onReportClick }) {
   const [activeMarker, setActiveMarker] = useState(null);
@@ -50,8 +50,8 @@ export default function MapView({ sightings, onReportClick }) {
               >
                 <Popup>
                   <div className="map-popup">
-                    {s.image && (
-                      <img className="popup-image" src={s.image} alt={s.commonName} />
+                    {s.imageUrl && (
+                      <img className="popup-image" src={s.imageUrl} alt={s.commonName} />
                     )}
                     <span
                       className="popup-tag"
@@ -60,7 +60,6 @@ export default function MapView({ sightings, onReportClick }) {
                       {s.type}
                     </span>
                     <strong className="popup-name">{s.commonName}</strong>
-                    <em className="popup-sci">{s.scientificName}</em>
                     <span className="popup-loc">📍 {s.location}</span>
                     <span className="popup-date">{s.date}</span>
                     {s.notes && <p className="popup-notes">{s.notes}</p>}
@@ -80,7 +79,7 @@ export default function MapView({ sightings, onReportClick }) {
           ))}
         </div>
 
-        <button className="map-fab" onClick={onReportClick}>
+        <button className="map-fab" onClick={onReportClick} type="button">
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
             <path
               d="M7 2V12M2 7H12"

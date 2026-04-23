@@ -61,3 +61,12 @@
   border-radius: 20px;
   letter-spacing: 0.4px;
 }
+
+.sighting-image {
+  width: 100%;
+  margin-top: 10px;
+  border-radius: 10px;
+  display: block;
+  object-fit: cover;
+  max-height: 160px;
+}

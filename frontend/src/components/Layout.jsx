@@ -2,20 +2,38 @@ import React, { useState } from "react";
 import { Outlet } from "react-router-dom";
 import Navbar from "./Navbar";
 import ReportModal from "./ReportModal";
+import AuthModal from "./AuthModal";
 
 export default function Layout() {
-  const [modalOpen, setModalOpen] = useState(false);
+  const [reportModalOpen, setReportModalOpen] = useState(false);
+  const [authModalOpen, setAuthModalOpen] = useState(false);
+  const [authMode, setAuthMode] = useState("login");
+
+  const handleAuthOpen = (mode = "login") => {
+    setAuthMode(mode);
+    setAuthModalOpen(true);
+  };
 
   return (
     <div className="app">
-      <Navbar onReportClick={() => setModalOpen(true)} />
+      <Navbar
+        onReportClick={() => setReportModalOpen(true)}
+        onAuthClick={() => handleAuthOpen("login")}
+        onRegisterClick={() => handleAuthOpen("register")}
+      />
 
       <Outlet />
 
       <ReportModal
-        isOpen={modalOpen}
-        onClose={() => setModalOpen(false)}
-        onSubmit={() => setModalOpen(false)}
+        isOpen={reportModalOpen}
+        onClose={() => setReportModalOpen(false)}
+        onSubmit={() => setReportModalOpen(false)}
+      />
+
+      <AuthModal
+        isOpen={authModalOpen}
+        mode={authMode}
+        onClose={() => setAuthModalOpen(false)}
       />
     </div>
   );

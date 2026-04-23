@@ -1,6 +1,6 @@
 import React from "react";
 import "./Filters.css";
-import { CATEGORIES, TIME_RANGES, STATUSES } from "../data/sightings";
+import { CATEGORIES, TIME_RANGES, STATUSES } from "../constants/sightingConstants";
 
 export default function Filters({ filters, onChange }) {
   const set = (key, value) => onChange({ ...filters, [key]: value });
@@ -15,6 +15,7 @@ export default function Filters({ filters, onChange }) {
               key={c}
               className={`chip ${filters.category === c ? "chip-active" : ""}`}
               onClick={() => set("category", c)}
+              type="button"
             >
               {c}
             </button>
@@ -30,6 +31,7 @@ export default function Filters({ filters, onChange }) {
               key={t}
               className={`chip ${filters.timeRange === t ? "chip-active" : ""}`}
               onClick={() => set("timeRange", t)}
+              type="button"
             >
               {t}
             </button>
@@ -45,6 +47,7 @@ export default function Filters({ filters, onChange }) {
               key={s}
               className={`chip ${filters.status === s ? "chip-active" : ""}`}
               onClick={() => set("status", s)}
+              type="button"
             >
               {s}
             </button>

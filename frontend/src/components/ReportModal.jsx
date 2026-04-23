@@ -1,19 +1,26 @@
 import React, { useState } from "react";
 import "./ReportModal.css";
+import { useAuth } from "../context/AuthContext";
+
+const API_BASE_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
 
 export default function ReportModal({ isOpen, onClose, onSubmit }) {
+  const { user, isAuthenticated } = useAuth();
+
   const [formData, setFormData] = useState({
-    commonName: "",
-    scientificName: "",
+    speciesName: "",
     type: "Bird",
     location: "",
     date: "",
     notes: "",
     lat: "",
     lng: "",
+    imageUrl: "",
   });
-  const [imagePreview, setImagePreview] = useState("");
-  const [imageFile, setImageFile] = useState(null);
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isLocating, setIsLocating] = useState(false);
+  const [submitError, setSubmitError] = useState("");
 
   if (!isOpen) return null;
 
@@ -22,50 +29,123 @@ export default function ReportModal({ isOpen, onClose, onSubmit }) {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleImageChange = (e) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
+  const handleUseCurrentLocation = () => {
+    if (!navigator.geolocation) {
+      alert("Geolocation is not supported by your browser.");
+      return;
+    }
 
-    setImageFile(file);
+    setIsLocating(true);
 
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setImagePreview(reader.result);
-    };
-    reader.readAsDataURL(file);
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        const latitude = position.coords.latitude;
+        const longitude = position.coords.longitude;
+
+        setFormData((prev) => ({
+          ...prev,
+          lat: latitude.toString(),
+          lng: longitude.toString(),
+        }));
+
+        try {
+          const response = await fetch(
+            `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitude}&lon=${longitude}`
+          );
+          const data = await response.json();
+
+          setFormData((prev) => ({
+            ...prev,
+            location: data.display_name || `${latitude}, ${longitude}`,
+            lat: latitude.toString(),
+            lng: longitude.toString(),
+          }));
+        } catch {
+          setFormData((prev) => ({
+            ...prev,
+            location: `${latitude}, ${longitude}`,
+          }));
+        } finally {
+          setIsLocating(false);
+        }
+      },
+      () => {
+        setIsLocating(false);
+        alert("Unable to access your location.");
+      }
+    );
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setSubmitError("");
 
-    onSubmit({
-      id: Date.now(),
-      commonName: formData.commonName,
-      scientificName: formData.scientificName,
-      type: formData.type,
-      location: formData.location,
-      date: formData.date,
-      notes: formData.notes,
-      lat: Number(formData.lat),
-      lng: Number(formData.lng),
-      image: imagePreview,
-      imageFile,
-    });
+    if (!isAuthenticated) {
+      setSubmitError("You must be logged in to submit a report.");
+      return;
+    }
 
-    setFormData({
-      commonName: "",
-      scientificName: "",
-      type: "Bird",
-      location: "",
-      date: "",
-      notes: "",
-      lat: "",
-      lng: "",
-    });
-    setImagePreview("");
-    setImageFile(null);
-    onClose();
+    const hasLatLng = formData.lat !== "" && formData.lng !== "";
+    const hasLocation = formData.location.trim() !== "";
+
+    if (!hasLatLng && !hasLocation) {
+      setSubmitError("Please enter either a location OR latitude/longitude.");
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      const payload = {
+        type: formData.type,
+        commonName: formData.speciesName,
+        location: hasLocation ? formData.location : "",
+        date: formData.date,
+        notes: formData.notes,
+        lat: hasLatLng ? Number(formData.lat) : null,
+        lng: hasLatLng ? Number(formData.lng) : null,
+        status: "Native",
+        reporter: user?.name || "Anonymous",
+        imageUrl: formData.imageUrl.trim(),
+      };
+
+      const response = await fetch(`${API_BASE_URL}/api/sightings`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        onSubmit(data);
+
+        setFormData({
+          speciesName: "",
+          type: "Bird",
+          location: "",
+          date: "",
+          notes: "",
+          lat: "",
+          lng: "",
+          imageUrl: "",
+        });
+
+        onClose();
+      } else {
+        setSubmitError(data.message || "Failed to submit sighting.");
+      }
+    } catch {
+      setSubmitError("Failed to submit sighting.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
+
+  const locationDisabled = formData.lat !== "" || formData.lng !== "";
+  const latLngDisabled = formData.location.trim() !== "";
 
   return (
     <div className="modal-overlay" onClick={onClose}>
@@ -77,41 +157,36 @@ export default function ReportModal({ isOpen, onClose, onSubmit }) {
           </button>
         </div>
 
+        {!isAuthenticated && (
+          <p style={{ color: "#b42318", marginBottom: "12px" }}>
+            You must be logged in to submit a report.
+          </p>
+        )}
+
+        {submitError && (
+          <p style={{ color: "#b42318", marginBottom: "12px" }}>{submitError}</p>
+        )}
+
         <form className="modal-form" onSubmit={handleSubmit}>
           <div className="field">
-            <label>Common name</label>
+            <label>Species name</label>
             <input
-              name="commonName"
-              value={formData.commonName}
+              name="speciesName"
+              value={formData.speciesName}
               onChange={handleChange}
               required
             />
           </div>
 
           <div className="field">
-            <label>Scientific name</label>
+            <label>Image URL</label>
             <input
-              name="scientificName"
-              value={formData.scientificName}
+              name="imageUrl"
+              value={formData.imageUrl}
               onChange={handleChange}
-              required
+              placeholder="https://example.com/image.jpg"
             />
           </div>
-
-          <div className="field">
-            <label>Image</label>
-            <input
-              type="file"
-              accept="image/*"
-              onChange={handleImageChange}
-            />
-          </div>
-
-          {imagePreview && (
-            <div className="image-preview">
-              <img src={imagePreview} alt="Preview" />
-            </div>
-          )}
 
           <div className="field-row">
             <div className="field">
@@ -139,6 +214,31 @@ export default function ReportModal({ isOpen, onClose, onSubmit }) {
             </div>
           </div>
 
+          <p style={{ fontSize: "0.9rem", opacity: 0.7 }}>
+            Enter either a location OR latitude/longitude (not both).
+          </p>
+
+          <div className="field">
+            <label>Location (Address or place name)</label>
+            <div className="location-row">
+              <input
+                name="location"
+                value={formData.location}
+                onChange={handleChange}
+                placeholder="e.g. Palo Duro Canyon, TX"
+                disabled={locationDisabled}
+              />
+              <button
+                type="button"
+                className="autofill-btn"
+                onClick={handleUseCurrentLocation}
+                disabled={isLocating}
+              >
+                {isLocating ? "Getting location..." : "Use current location"}
+              </button>
+            </div>
+          </div>
+
           <div className="field-row">
             <div className="field">
               <label>Latitude</label>
@@ -148,7 +248,8 @@ export default function ReportModal({ isOpen, onClose, onSubmit }) {
                 step="any"
                 value={formData.lat}
                 onChange={handleChange}
-                required
+                placeholder="e.g. 34.9489"
+                disabled={latLngDisabled}
               />
             </div>
 
@@ -160,19 +261,10 @@ export default function ReportModal({ isOpen, onClose, onSubmit }) {
                 step="any"
                 value={formData.lng}
                 onChange={handleChange}
-                required
+                placeholder="e.g. -101.7181"
+                disabled={latLngDisabled}
               />
             </div>
-          </div>
-
-          <div className="field">
-            <label>Location</label>
-            <input
-              name="location"
-              value={formData.location}
-              onChange={handleChange}
-              required
-            />
           </div>
 
           <div className="field">
@@ -184,8 +276,8 @@ export default function ReportModal({ isOpen, onClose, onSubmit }) {
             />
           </div>
 
-          <button className="submit-btn" type="submit">
-            Submit sighting
+          <button className="submit-btn" type="submit" disabled={isSubmitting}>
+            {isSubmitting ? "Submitting..." : "Submit sighting"}
           </button>
         </form>
       </div>

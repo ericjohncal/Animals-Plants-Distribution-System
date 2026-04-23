@@ -1,0 +1,67 @@
+.auth-modal {
+  max-width: 460px;
+}
+
+.auth-tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.auth-tab {
+  flex: 1;
+  border: 1px solid #dde5d4;
+  background: #f5f8f2;
+  color: #6b7c5a;
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-family: 'DM Sans', sans-serif;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.auth-tab.active {
+  background: #e8f5e9;
+  border-color: #639922;
+  color: #3b6d11;
+  font-weight: 600;
+}
+
+.auth-error {
+  background: #fff2f2;
+  color: #b42318;
+  border: 1px solid #f5c2c7;
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 13px;
+}
+
+.account-card {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.account-row {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px;
+  border: 1px solid #dde5d4;
+  border-radius: 10px;
+  background: #fafcf8;
+}
+
+.account-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: #6b7c5a;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.account-value {
+  font-size: 14px;
+  color: #1a2e0e;
+  font-family: 'DM Sans', sans-serif;
+}

@@ -106,6 +106,39 @@
   gap: 12px;
 }
 
+.location-row {
+  display: flex;
+  gap: 10px;
+  align-items: stretch;
+}
+
+.location-row input {
+  flex: 1;
+}
+
+.autofill-btn {
+  border: 1px solid #dde5d4;
+  background: #f5f8f2;
+  color: #3b6d11;
+  border-radius: 8px;
+  padding: 0 12px;
+  font-size: 13px;
+  font-family: 'DM Sans', sans-serif;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.autofill-btn:hover:not(:disabled) {
+  background: #edf2e8;
+  border-color: #92b87c;
+}
+
+.autofill-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
 .type-toggle {
   display: flex;
   flex-wrap: wrap;
