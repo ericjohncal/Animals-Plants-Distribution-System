@@ -9,6 +9,8 @@ const PORT = process.env.PORT || 5000;
 const DATA_DIR = path.join(__dirname, "data");
 const SIGHTINGS_FILE = path.join(DATA_DIR, "sightings.json");
 const USERS_FILE = path.join(DATA_DIR, "users.json");
+const EBIRD_API_KEY = "c143ddonqbn6";
+const EBIRD_BASE_URL = "https://api.ebird.org/v2";
 
 app.use(cors());
 app.use(express.json());
@@ -82,6 +84,38 @@ app.post("/api/sightings", (req, res) => {
   writeJsonFile(SIGHTINGS_FILE, sightings);
 
   res.status(201).json(newSighting);
+});
+
+app.get("/api/birdcast/overlay", async (req, res) => {
+  try {
+    const response = await fetch(`${EBIRD_BASE_URL}/data/obs/US/recent/notable?back=3&detail=simple`, {
+      headers: { "X-eBirdApiToken": EBIRD_API_KEY }
+    });
+
+    if (!response.ok) {
+      console.error("eBird API unreachable");
+      return res.status(502).json({ message: "Failed to fetch live migration data" });
+    }
+
+    const sightings = await response.json();
+
+    const regions = sightings.map((obs, index) => ({
+      id: `ebird-${index}`,
+      lat: obs.lat,
+      lng: obs.lng,
+      level: Math.random() * 0.5 + 0.5,
+      species: obs.comName,
+      howMany: obs.howMany || 1,
+    }));
+
+    res.json({
+      updatedAt: new Date().toISOString(),
+      regions,
+    });
+  } catch (error) {
+    console.error("Migration data error:", error);
+    res.status(500).json({ message: "Failed to fetch live migration data" });
+  }
 });
 
 app.post("/api/auth/register", (req, res) => {

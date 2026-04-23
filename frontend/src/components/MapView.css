@@ -147,6 +147,33 @@
   transform: translateY(-1px);
 }
 
+.birdcast-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #3b6d11;
+  cursor: pointer;
+  user-select: none;
+}
+
+.birdcast-toggle input {
+  accent-color: #ff9800;
+}
+
+.birdcast-loading {
+  position: absolute;
+  top: 18px;
+  left: 18px;
+  z-index: 1000;
+  background: rgba(255, 255, 255, 0.92);
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  color: #7a4b00;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
 .map-popup {
   display: flex;
   flex-direction: column;
