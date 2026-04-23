@@ -30,6 +30,10 @@ function matchesTimeRange(sightingDate, timeRange) {
   return true;
 }
 
+function isAllowedValidity(value) {
+  return value === "" || value === "Yes" || value === undefined || value === null;
+}
+
 export default function ExplorePage() {
   const [filters, setFilters] = useState(DEFAULT_FILTERS);
   const [sightings, setSightings] = useState([]);
@@ -71,10 +75,10 @@ export default function ExplorePage() {
 
   const filtered = useMemo(() => {
     return sightings.filter((s) => {
+      if (s.status !== "Approved") return false;
+      if (!isAllowedValidity(s.isValid)) return false;
       if (filters.category !== "All" && s.type !== filters.category) return false;
-      if (filters.status !== "All" && s.status !== filters.status) return false;
       return matchesTimeRange(s.date, filters.timeRange);
-
     });
   }, [sightings, filters]);
 
