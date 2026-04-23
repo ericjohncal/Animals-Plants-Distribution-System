@@ -3,7 +3,7 @@
     "id": 1776957113849,
     "type": "Bird",
     "commonName": "Cardinal",
-    "suggestedName": "",
+    "suggestedName": "Cardinal",
     "city": "Lubbock",
     "country": "United States",
     "lat": 33.58760750573785,
@@ -12,8 +12,8 @@
     "date": "2026-04-23",
     "reporter": "Shams A",
     "imageUrl": "https://indianaaudubon.org/wp-content/uploads/2016/04/Cardinal_Northern_male_Ash_2012.jpg",
-    "status": "Reported",
-    "isValid": ""
+    "status": "Approved",
+    "isValid": "yes"
   },
   {
     "id": 1776933463329,
