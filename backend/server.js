@@ -70,14 +70,16 @@ app.post("/api/sightings", (req, res) => {
     id: Date.now(),
     type: sighting.type,
     commonName: sighting.commonName,
-    location: sighting.location || "",
+    suggestedName: "",
+    city: String(sighting.city || "").trim(),
+    country: String(sighting.country || "").trim(),
     lat: sighting.lat ?? null,
     lng: sighting.lng ?? null,
     notes: sighting.notes || "",
     date: sighting.date,
-    status: sighting.status || "Native",
     reporter: sighting.reporter,
     imageUrl: sighting.imageUrl || "",
+    status: "Reported",
   };
 
   sightings.unshift(newSighting);
@@ -127,7 +129,7 @@ app.post("/api/auth/register", (req, res) => {
 
   const users = readJsonFile(USERS_FILE, []);
   const existingUser = users.find(
-    (user) => user.email.toLowerCase() === String(email).toLowerCase()
+      (user) => user.email.toLowerCase() === String(email).toLowerCase()
   );
 
   if (existingUser) {
@@ -161,9 +163,9 @@ app.post("/api/auth/login", (req, res) => {
 
   const users = readJsonFile(USERS_FILE, []);
   const user = users.find(
-    (entry) =>
-      entry.email.toLowerCase() === String(email).toLowerCase() &&
-      entry.password === String(password)
+      (entry) =>
+          entry.email.toLowerCase() === String(email).toLowerCase() &&
+          entry.password === String(password)
   );
 
   if (!user) {
