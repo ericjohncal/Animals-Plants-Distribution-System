@@ -6,6 +6,7 @@ import { ViewSwitcher } from "./ViewSwitcher";
 import { RecentView } from "./RecentView";
 import { MigrationView } from "./MigrationView";
 import { SpeciesView } from "./SpeciesView";
+import "./Explore.css";
 
 export function ExploreTab() {
   const { region, setRegion } = useRegion();
