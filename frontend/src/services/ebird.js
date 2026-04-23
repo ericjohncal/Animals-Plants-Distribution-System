@@ -45,7 +45,10 @@ export async function fetchMigrationSamples(regionCode, { years } = {}) {
   for (const y of yrs) {
     for (let m = 1; m <= 12; m++) tasks.push(fetchHistoric(regionCode, y, m));
   }
-  return Promise.all(tasks);
+  const settled = await Promise.allSettled(tasks);
+  return settled
+    .filter((r) => r.status === "fulfilled")
+    .map((r) => r.value);
 }
 
 export function aggregateMigration(samples) {

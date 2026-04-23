@@ -1,4 +1,4 @@
-import { isAllowedPath, cacheHeaderFor } from "./ebirdProxyConfig";
+const { isAllowedPath, cacheHeaderFor } = require("./ebirdProxyConfig");
 
 const EBIRD_BASE = "https://api.ebird.org/v2";
 
@@ -10,7 +10,7 @@ function json(status, obj) {
   };
 }
 
-export async function handleEbirdProxy({ path, query, apiKey, fetchFn = fetch }) {
+async function handleEbirdProxy({ path, query, apiKey, fetchFn = fetch }) {
   if (!isAllowedPath(path)) {
     return json(400, { error: "endpoint not allowed" });
   }
@@ -27,9 +27,14 @@ export async function handleEbirdProxy({ path, query, apiKey, fetchFn = fetch })
   const qsString = qs.toString();
   const url = `${EBIRD_BASE}/${path}${qsString ? `?${qsString}` : ""}`;
 
-  const upstream = await fetchFn(url, {
-    headers: { "X-eBirdApiToken": apiKey },
-  });
+  let upstream;
+  try {
+    upstream = await fetchFn(url, {
+      headers: { "X-eBirdApiToken": apiKey },
+    });
+  } catch (err) {
+    return json(502, { error: "upstream fetch failed" });
+  }
   const body = await upstream.text();
 
   if (!upstream.ok) {
@@ -49,3 +54,5 @@ export async function handleEbirdProxy({ path, query, apiKey, fetchFn = fetch })
     },
   };
 }
+
+module.exports = { handleEbirdProxy };

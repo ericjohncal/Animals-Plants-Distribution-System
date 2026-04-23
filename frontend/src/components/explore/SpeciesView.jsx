@@ -29,7 +29,7 @@ export function SpeciesView({ region, species, onBack }) {
         {!loading && !error && data && data.length > 0 && (
           <div className="recent-grid explore-grid">
             {data.map((s, i) => (
-              <BirdCard key={i} sighting={s} />
+              <BirdCard key={`${s.speciesCode}-${s.obsDt}-${s.locId || i}`} sighting={s} />
             ))}
           </div>
         )}

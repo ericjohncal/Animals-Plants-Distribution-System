@@ -11,14 +11,16 @@ const ALLOWLIST = [
 const CACHE_30D = "public, s-maxage=2592000, stale-while-revalidate=86400";
 const CACHE_5M  = "public, s-maxage=300, stale-while-revalidate=60";
 
-export function isAllowedPath(path) {
+function isAllowedPath(path) {
   if (typeof path !== "string" || path.length === 0) return false;
   if (path.includes("..")) return false;
   return ALLOWLIST.some((rx) => rx.test(path));
 }
 
-export function cacheHeaderFor(path) {
+function cacheHeaderFor(path) {
   if (/\/historic\//.test(path)) return CACHE_30D;
   if (/^ref\//.test(path))       return CACHE_30D;
   return CACHE_5M;
 }
+
+module.exports = { isAllowedPath, cacheHeaderFor };
