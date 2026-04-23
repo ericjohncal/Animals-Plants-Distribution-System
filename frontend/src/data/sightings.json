@@ -1,0 +1,167 @@
+[
+  {
+    "id": "s1",
+    "species": "American Robin",
+    "scientificName": "Turdus migratorius",
+    "lat": 33.5891,
+    "lng": -101.8742,
+    "date": "2026-04-18T08:23:00Z",
+    "photoUrl": "https://images.unsplash.com/photo-1591608971362-f08b2a75731a?w=400",
+    "reporter": "Jamie Lin",
+    "notes": "Spotted feeding on the lawn at Mae Simmons Park."
+  },
+  {
+    "id": "s2",
+    "species": "Northern Cardinal",
+    "scientificName": "Cardinalis cardinalis",
+    "lat": 33.5662,
+    "lng": -101.8328,
+    "date": "2026-04-15T16:45:00Z",
+    "photoUrl": "https://images.unsplash.com/photo-1444465693019-aa0b6392460d?w=400",
+    "reporter": "Marcus Hall",
+    "notes": "Bright male perched on a mesquite branch in our backyard."
+  },
+  {
+    "id": "s3",
+    "species": "Blue Jay",
+    "scientificName": "Cyanocitta cristata",
+    "lat": 33.5984,
+    "lng": -101.8911,
+    "date": "2026-04-10T12:10:00Z",
+    "photoUrl": "https://images.unsplash.com/photo-1486365227551-f3f90034a57c?w=400",
+    "reporter": "Priya Patel",
+    "notes": "Loud calls near the picnic shelters at Mackenzie Park."
+  },
+  {
+    "id": "s4",
+    "species": "Mallard",
+    "scientificName": "Anas platyrhynchos",
+    "lat": 33.5421,
+    "lng": -101.8602,
+    "date": "2026-04-07T07:55:00Z",
+    "photoUrl": "https://images.unsplash.com/photo-1551085254-e96b210db58a?w=400",
+    "reporter": "Diego Reyes",
+    "notes": "Pair drifting along the playa lake edge after morning rain."
+  },
+  {
+    "id": "s5",
+    "species": "Red-tailed Hawk",
+    "scientificName": "Buteo jamaicensis",
+    "lat": 33.6101,
+    "lng": -101.8201,
+    "date": "2026-04-04T15:30:00Z",
+    "photoUrl": "https://images.unsplash.com/photo-1500595046743-cd271d694d30?w=400",
+    "reporter": "Sarah Chen",
+    "notes": "Circling above an open field east of campus, possibly hunting."
+  },
+  {
+    "id": "s6",
+    "species": "Gray Squirrel",
+    "scientificName": "Sciurus carolinensis",
+    "lat": 33.5847,
+    "lng": -101.8741,
+    "date": "2026-03-30T11:20:00Z",
+    "photoUrl": "https://images.unsplash.com/photo-1500595046743-cd271d694d30?w=400",
+    "reporter": "Tomas Vega",
+    "notes": "Active around the oak trees on the TTU memorial circle."
+  },
+  {
+    "id": "s7",
+    "species": "Monarch Butterfly",
+    "scientificName": "Danaus plexippus",
+    "lat": 33.5723,
+    "lng": -101.8865,
+    "date": "2026-03-28T13:05:00Z",
+    "photoUrl": "https://images.unsplash.com/photo-1444465693019-aa0b6392460d?w=400",
+    "reporter": "Kira Nakamura",
+    "notes": "Visiting milkweed in a community pollinator garden."
+  },
+  {
+    "id": "s8",
+    "species": "Eastern Cottontail",
+    "scientificName": "Sylvilagus floridanus",
+    "lat": 33.5538,
+    "lng": -101.8997,
+    "date": "2026-03-25T18:40:00Z",
+    "photoUrl": "https://images.unsplash.com/photo-1500595046743-cd271d694d30?w=400",
+    "reporter": "Elena Whitfield",
+    "notes": "Grazing at dusk near the playa lake walking trail."
+  },
+  {
+    "id": "s9",
+    "species": "Sunflower",
+    "scientificName": "Helianthus annuus",
+    "lat": 33.5615,
+    "lng": -101.8112,
+    "date": "2026-03-22T10:15:00Z",
+    "photoUrl": "https://images.unsplash.com/photo-1486365227551-f3f90034a57c?w=400",
+    "reporter": "Wesley Park",
+    "notes": "Wild stand blooming along the roadside east of Slide Road."
+  },
+  {
+    "id": "s10",
+    "species": "Prickly Pear",
+    "scientificName": "Opuntia engelmannii",
+    "lat": 33.6018,
+    "lng": -101.8429,
+    "date": "2026-03-19T09:30:00Z",
+    "photoUrl": "https://images.unsplash.com/photo-1591608971362-f08b2a75731a?w=400",
+    "reporter": "Maya Rodriguez",
+    "notes": "Large patch with yellow flowers in a vacant lot near 19th."
+  },
+  {
+    "id": "s11",
+    "species": "Bluebonnet",
+    "scientificName": "Lupinus texensis",
+    "lat": 33.5478,
+    "lng": -101.8274,
+    "date": "2026-03-15T14:00:00Z",
+    "photoUrl": "https://images.unsplash.com/photo-1486365227551-f3f90034a57c?w=400",
+    "reporter": "Ben Carter",
+    "notes": "Small patch already blooming early — first I have seen this year."
+  },
+  {
+    "id": "s12",
+    "species": "American Robin",
+    "scientificName": "Turdus migratorius",
+    "lat": 33.5560,
+    "lng": -101.8810,
+    "date": "2026-03-11T07:42:00Z",
+    "photoUrl": "https://images.unsplash.com/photo-1591608971362-f08b2a75731a?w=400",
+    "reporter": "Yuki Tanaka",
+    "notes": "Group of four foraging together on a wet front yard."
+  },
+  {
+    "id": "s13",
+    "species": "Northern Cardinal",
+    "scientificName": "Cardinalis cardinalis",
+    "lat": 33.5959,
+    "lng": -101.8612,
+    "date": "2026-03-06T16:25:00Z",
+    "photoUrl": "https://images.unsplash.com/photo-1444465693019-aa0b6392460d?w=400",
+    "reporter": "Jamie Lin",
+    "notes": "Female at the suet feeder on a chilly afternoon."
+  },
+  {
+    "id": "s14",
+    "species": "Blue Jay",
+    "scientificName": "Cyanocitta cristata",
+    "lat": 33.5390,
+    "lng": -101.8475,
+    "date": "2026-02-28T09:18:00Z",
+    "photoUrl": "https://images.unsplash.com/photo-1486365227551-f3f90034a57c?w=400",
+    "reporter": "Diego Reyes",
+    "notes": "Caching peanuts under a juniper, very vocal."
+  },
+  {
+    "id": "s15",
+    "species": "Red-tailed Hawk",
+    "scientificName": "Buteo jamaicensis",
+    "lat": 33.5825,
+    "lng": -101.9130,
+    "date": "2026-02-24T12:48:00Z",
+    "photoUrl": "https://images.unsplash.com/photo-1551085254-e96b210db58a?w=400",
+    "reporter": "Sarah Chen",
+    "notes": "Perched on a power pole watching the open pasture below."
+  }
+]

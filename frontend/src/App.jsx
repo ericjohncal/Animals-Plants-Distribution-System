@@ -1,31 +1,32 @@
 import React from "react";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import "./App.css";
-import Layout from "./components/Layout";
-import MapPage from "./pages/MapPage";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 
-function PlaceholderPage({ title }) {
-  return (
-    <main className="main">
-      <section className="section">
-        <h1 className="hero-heading">{title}</h1>
-        <p className="hero-sub">This page will be implemented soon.</p>
-      </section>
-    </main>
-  );
-}
+const LUBBOCK = [33.5779, -101.8552];
 
 export default function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route element={<Layout />}>
-          <Route path="/" element={<MapPage />} />
-          <Route path="/explore" element={<PlaceholderPage title="Explore" />} />
-          <Route path="/about" element={<PlaceholderPage title="About" />} />
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+    <div style={{ padding: 16, fontFamily: "system-ui, sans-serif" }}>
+      <h1 style={{ margin: "0 0 12px 0" }}>WildAtlas — Smoke Test</h1>
+      <p style={{ margin: "0 0 12px 0", color: "#555" }}>
+        If you see a map of Lubbock with one marker, Leaflet is wired up
+        correctly.
+      </p>
+      <div style={{ height: "70vh" }}>
+        <MapContainer
+          center={LUBBOCK}
+          zoom={11}
+          style={{ height: "100%", width: "100%" }}
+          scrollWheelZoom
+        >
+          <TileLayer
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
+          <Marker position={LUBBOCK}>
+            <Popup>Lubbock, TX (smoke test marker)</Popup>
+          </Marker>
+        </MapContainer>
+      </div>
+    </div>
   );
 }
