@@ -1,5 +1,21 @@
 [
   {
+    "id": 1776948642208,
+    "type": "Mammal",
+    "commonName": "Polar Bear",
+    "suggestedName": "",
+    "city": "Arlington",
+    "country": "United States",
+    "lat": 32.7355816,
+    "lng": -97.1071186,
+    "notes": "",
+    "date": "2026-04-15",
+    "reporter": "Shams A",
+    "imageUrl": "",
+    "status": "Reported",
+    "isValid": ""
+  },
+  {
     "id": 1776948510714,
     "type": "Bird",
     "commonName": "Cardinal",
