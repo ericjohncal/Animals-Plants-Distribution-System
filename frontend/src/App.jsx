@@ -27,8 +27,24 @@ export default function App() {
     <div className="app">
       <Navbar activeTab={activeTab} onTabChange={setActiveTab} />
       <main className="main">
-        {activeTab === "map" && <MapTab sightings={sightings} />}
-        {activeTab === "migration" && <MigrationTab />}
+        {activeTab === "map" && (
+          <MapTab sightings={sightings} onReport={() => setActiveTab("report")} />
+        )}
+        {activeTab === "explore" && <MigrationTab />}
+        {activeTab === "about" && (
+          <section className="tab-section">
+            <div className="hero">
+              <h1 className="hero-heading">
+                About <em>WildAtlas</em>.
+              </h1>
+              <p className="hero-sub">
+                A community-powered database mapping the distribution of plants
+                and animals across ecosystems. Contribute sightings, explore
+                patterns, support conservation.
+              </p>
+            </div>
+          </section>
+        )}
         {activeTab === "report" && <ReportTab onSubmit={handleSubmit} />}
       </main>
       {toast && <div className="toast">{toast}</div>}
