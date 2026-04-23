@@ -37,7 +37,7 @@ jobs:
 
       - name: Run downloader script
         run: |
-          python downloader.py "${{ steps.extract.outputs.imageUrl }}" backend/yolo/image.jpg
+          python backend/yolo/downloader.py "${{ steps.extract.outputs.imageUrl }}" backend/yolo/image.jpg
 
       - name: Write working ID file
         run: |
