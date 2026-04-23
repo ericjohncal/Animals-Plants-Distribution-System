@@ -1,0 +1,148 @@
+.map-wrapper {
+  background: #fff;
+  border: 1px solid #dde5d4;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.map-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  border-bottom: 1px solid #eef2e8;
+  font-size: 13px;
+  color: #6b7c5a;
+}
+
+.live-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #3b6d11;
+  font-weight: 500;
+}
+
+.live-dot {
+  width: 7px;
+  height: 7px;
+  background: #639922;
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+
+.map-canvas {
+  height: 460px;
+  position: relative;
+}
+
+/* Leaflet popup styling */
+.map-popup {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 160px;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.popup-tag {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  padding: 2px 8px;
+  border-radius: 20px;
+  width: fit-content;
+  margin-bottom: 2px;
+}
+
+.popup-name {
+  font-size: 15px;
+  font-weight: 600;
+  color: #1a2e0e;
+  font-family: 'Playfair Display', serif;
+}
+
+.popup-sci {
+  font-size: 12px;
+  color: #7a8f6a;
+}
+
+.popup-loc,
+.popup-date {
+  font-size: 12px;
+  color: #6b7c5a;
+}
+
+.popup-notes {
+  margin-top: 4px;
+  font-size: 12px;
+  color: #4a5a3a;
+  line-height: 1.5;
+  border-top: 1px solid #eef2e8;
+  padding-top: 6px;
+}
+
+/* Map legend */
+.map-legend {
+  position: absolute;
+  bottom: 14px;
+  left: 14px;
+  background: rgba(255, 255, 255, 0.93);
+  border: 1px solid #dde5d4;
+  border-radius: 10px;
+  padding: 10px 13px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  z-index: 1000;
+  font-size: 12px;
+  color: #4a5a3a;
+  backdrop-filter: blur(4px);
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* FAB on map */
+.map-fab {
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+  z-index: 1000;
+  background: #3b6d11;
+  color: #c0dd97;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 24px;
+  font-size: 13px;
+  font-weight: 500;
+  font-family: 'DM Sans', sans-serif;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  box-shadow: 0 4px 14px rgba(59, 109, 17, 0.35);
+  transition: background 0.2s, transform 0.15s;
+}
+
+.map-fab:hover {
+  background: #2d5409;
+  transform: translateY(-1px);
+}

@@ -1,0 +1,82 @@
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 13px 28px;
+  background: #fff;
+  border-bottom: 1px solid #e5e7e0;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.navbar-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+
+.logo-icon {
+  width: 34px;
+  height: 34px;
+  background: #3b6d11;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.logo-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: #1a2e0e;
+  letter-spacing: -0.3px;
+}
+
+.logo-sub {
+  font-size: 10px;
+  color: #7a8f6a;
+  text-transform: uppercase;
+  letter-spacing: 1.4px;
+  font-weight: 400;
+  margin-top: 1px;
+}
+
+.navbar-links {
+  display: flex;
+  gap: 28px;
+  font-size: 14px;
+  color: #6b7c5a;
+}
+
+.navbar-links span {
+  cursor: pointer;
+  transition: color 0.15s;
+}
+
+.navbar-links span:hover {
+  color: #1a2e0e;
+}
+
+.report-btn {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  background: #3b6d11;
+  color: #c0dd97;
+  border: none;
+  padding: 9px 18px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  font-family: 'DM Sans', sans-serif;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.report-btn:hover {
+  background: #2d5409;
+}
