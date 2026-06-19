@@ -1,0 +1,570 @@
+# Instincts generated from https://github.com/ericjohncal/Animals-Plants-Distribution-System
+# Generated: 2026-04-23T07:55:12.184Z
+# Version: 2.0
+# NOTE: This file supplements (does not replace) any existing curated instincts.
+# High-confidence manually curated instincts should be preserved alongside these.
+
+---
+id: Animals-Plants-Distribution-System-commit-length
+trigger: "when writing a commit message"
+confidence: 0.6
+domain: git
+source: repo-analysis
+source_repo: https://github.com/ericjohncal/Animals-Plants-Distribution-System
+---
+
+# Animals Plants Distribution System Commit Length
+
+## Action
+
+Write moderate-length commit messages (~59 characters)
+
+## Evidence
+
+- Average commit message length: 59 chars
+- Based on 6 commits
+
+---
+id: Animals-Plants-Distribution-System-naming-files
+trigger: "when creating a new file"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: https://github.com/ericjohncal/Animals-Plants-Distribution-System
+---
+
+# Animals Plants Distribution System Naming Files
+
+## Action
+
+Use camelCase naming convention
+
+## Evidence
+
+- Analyzed file naming patterns in repository
+- Dominant pattern: camelCase
+
+---
+id: Animals-Plants-Distribution-System-export-style
+trigger: "when exporting from a module"
+confidence: 0.7
+domain: code-style
+source: repo-analysis
+source_repo: https://github.com/ericjohncal/Animals-Plants-Distribution-System
+---
+
+# Animals Plants Distribution System Export Style
+
+## Action
+
+Prefer named exports
+
+## Evidence
+
+- Export pattern analysis
+- Dominant style: named
+
+---
+id: Animals-Plants-Distribution-System-arch-type-based
+trigger: "when adding new code"
+confidence: 0.8
+domain: architecture
+source: repo-analysis
+source_repo: https://github.com/ericjohncal/Animals-Plants-Distribution-System
+---
+
+# Animals Plants Distribution System Arch Type Based
+
+## Action
+
+Place code in the appropriate type folder (components/, services/, utils/, etc.)
+
+## Evidence
+
+- Type-based module organization detected
+- Folders: 
+
+---
+id: Animals-Plants-Distribution-System-test-separate
+trigger: "when writing tests"
+confidence: 0.8
+domain: testing
+source: repo-analysis
+source_repo: https://github.com/ericjohncal/Animals-Plants-Distribution-System
+---
+
+# Animals Plants Distribution System Test Separate
+
+## Action
+
+Place tests in the tests/ or __tests__/ directory, mirroring src structure
+
+## Evidence
+
+- Separate test directory pattern detected
+- Tests live in dedicated test folders
+
+---
+id: Animals-Plants-Distribution-System-workflow-add-new-tab-to-app-shell
+trigger: "when doing add new tab to app shell"
+confidence: 0.6
+domain: workflow
+source: repo-analysis
+source_repo: https://github.com/ericjohncal/Animals-Plants-Distribution-System
+---
+
+# Animals Plants Distribution System Workflow Add New Tab To App Shell
+
+## Action
+
+Follow the add-new-tab-to-app-shell workflow:
+1. Create new component file for the tab under frontend/src/components/
+2. Update App.jsx to include the new tab and manage its state
+3. Update App.css to style the new tab and any new UI elements
+4. Update Navbar.jsx to include the new tab in the navigation
+5. If needed, update or add data files relevant to the tab's functionality
+
+## Evidence
+
+- Workflow detected from commit patterns
+- Frequency: ~2x per month
+- Files: frontend/src/App.jsx, frontend/src/App.css, frontend/src/components/<TabName>Tab.jsx
+
+---
+id: Animals-Plants-Distribution-System-workflow-update-design-system-and-apply-globally
+trigger: "when doing update design system and apply globally"
+confidence: 0.6
+domain: workflow
+source: repo-analysis
+source_repo: https://github.com/ericjohncal/Animals-Plants-Distribution-System
+---
+
+# Animals Plants Distribution System Workflow Update Design System And Apply Globally
+
+## Action
+
+Follow the update-design-system-and-apply-globally workflow:
+1. Create or update a design token CSS file (e.g., colors_and_type.css)
+2. Add or update font files under src/fonts/
+3. Wire the design token CSS as the first import in index.js
+4. Rewrite App.css and possibly other CSS files to consume the new tokens
+5. Update index.html to remove or replace font links as needed
+6. Ensure all components use the new design system without breaking existing functionality
+
+## Evidence
+
+- Workflow detected from commit patterns
+- Frequency: ~2x per month
+- Files: frontend/src/colors_and_type.css, frontend/src/fonts/, frontend/src/App.css
+
+---
+id: animals-plants-distribution-system-instinct-file-naming
+trigger: "When creating a new file (component, utility, etc.) in the codebase."
+confidence: 0.9
+domain: code-style
+source: repo-analysis
+source_repo: ericjohncal/Animals-Plants-Distribution-System
+---
+
+# Animals Plants Distribution System Instinct File Naming
+
+## Action
+
+Name the file using camelCase (e.g., speciesFilter.js).
+
+## Evidence
+
+- Pattern in namingConventions.files: camelCase
+
+---
+id: animals-plants-distribution-system-instinct-function-naming
+trigger: "When defining a new function."
+confidence: 0.9
+domain: code-style
+source: repo-analysis
+source_repo: ericjohncal/Animals-Plants-Distribution-System
+---
+
+# Animals Plants Distribution System Instinct Function Naming
+
+## Action
+
+Name the function using camelCase (e.g., filterSpecies).
+
+## Evidence
+
+- Pattern in namingConventions.functions: camelCase
+
+---
+id: animals-plants-distribution-system-instinct-class-naming
+trigger: "When defining a new class (e.g., React component class)."
+confidence: 0.9
+domain: code-style
+source: repo-analysis
+source_repo: ericjohncal/Animals-Plants-Distribution-System
+---
+
+# Animals Plants Distribution System Instinct Class Naming
+
+## Action
+
+Name the class using PascalCase (e.g., SpeciesFilter).
+
+## Evidence
+
+- Pattern in namingConventions.classes: PascalCase
+
+---
+id: animals-plants-distribution-system-instinct-constant-naming
+trigger: "When defining a constant value."
+confidence: 0.9
+domain: code-style
+source: repo-analysis
+source_repo: ericjohncal/Animals-Plants-Distribution-System
+---
+
+# Animals Plants Distribution System Instinct Constant Naming
+
+## Action
+
+Name the constant using SCREAMING_SNAKE_CASE (e.g., MAX_SPECIES_COUNT).
+
+## Evidence
+
+- Pattern in namingConventions.constants: SCREAMING_SNAKE_CASE
+
+---
+id: animals-plants-distribution-system-instinct-import-style
+trigger: "When importing modules in JavaScript files."
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: ericjohncal/Animals-Plants-Distribution-System
+---
+
+# Animals Plants Distribution System Instinct Import Style
+
+## Action
+
+Use absolute import paths instead of relative ones.
+
+## Evidence
+
+- Pattern in importStyle: absolute
+
+---
+id: animals-plants-distribution-system-instinct-export-style
+trigger: "When exporting modules or functions."
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: ericjohncal/Animals-Plants-Distribution-System
+---
+
+# Animals Plants Distribution System Instinct Export Style
+
+## Action
+
+Use named exports instead of default exports.
+
+## Evidence
+
+- Pattern in exportStyle: named
+
+---
+id: animals-plants-distribution-system-instinct-test-location
+trigger: "When adding or updating tests."
+confidence: 0.8
+domain: testing
+source: repo-analysis
+source_repo: ericjohncal/Animals-Plants-Distribution-System
+---
+
+# Animals Plants Distribution System Instinct Test Location
+
+## Action
+
+Place test files in a separate directory from the source code.
+
+## Evidence
+
+- Pattern in architecture.folderStructure.testLocation: separate
+
+---
+id: animals-plants-distribution-system-instinct-test-organization
+trigger: "When organizing test files."
+confidence: 0.7
+domain: testing
+source: repo-analysis
+source_repo: ericjohncal/Animals-Plants-Distribution-System
+---
+
+# Animals Plants Distribution System Instinct Test Organization
+
+## Action
+
+Organize test files by type (e.g., components, utils) mirroring the source structure.
+
+## Evidence
+
+- Pattern in architecture.moduleOrganization: type-based
+
+---
+id: animals-plants-distribution-system-instinct-git-commit-prefix
+trigger: "When writing a commit message for a new feature."
+confidence: 0.9
+domain: git
+source: repo-analysis
+source_repo: ericjohncal/Animals-Plants-Distribution-System
+---
+
+# Animals Plants Distribution System Instinct Git Commit Prefix
+
+## Action
+
+Prefix the commit message with 'feat' (e.g., 'feat: add migration tab').
+
+## Evidence
+
+- Pattern in commits.prefixes: feat
+- Seen in commit: 'feat(design): apply WildAtlas design system'
+
+---
+id: animals-plants-distribution-system-instinct-git-commit-length
+trigger: "When writing a commit message."
+confidence: 0.7
+domain: git
+source: repo-analysis
+source_repo: ericjohncal/Animals-Plants-Distribution-System
+---
+
+# Animals Plants Distribution System Instinct Git Commit Length
+
+## Action
+
+Keep the commit message concise, around 59 characters on average.
+
+## Evidence
+
+- Pattern in commits.averageLength: 59
+
+---
+id: animals-plants-distribution-system-instinct-add-tab-component
+trigger: "When adding a new major feature accessible via a tab in the navbar."
+confidence: 0.95
+domain: workflow
+source: repo-analysis
+source_repo: ericjohncal/Animals-Plants-Distribution-System
+---
+
+# Animals Plants Distribution System Instinct Add Tab Component
+
+## Action
+
+Create a new component file for the tab under frontend/src/components/.
+
+## Evidence
+
+- Workflow: add-new-tab-to-app-shell
+- Commit: 'Create new component file for the tab under frontend/src/components/'
+
+---
+id: animals-plants-distribution-system-instinct-add-tab-app-jsx
+trigger: "After creating a new tab component."
+confidence: 0.95
+domain: workflow
+source: repo-analysis
+source_repo: ericjohncal/Animals-Plants-Distribution-System
+---
+
+# Animals Plants Distribution System Instinct Add Tab App Jsx
+
+## Action
+
+Update frontend/src/App.jsx to include the new tab and manage its state.
+
+## Evidence
+
+- Workflow: add-new-tab-to-app-shell
+- Commit: 'Update App.jsx to include the new tab and manage its state'
+
+---
+id: animals-plants-distribution-system-instinct-add-tab-css
+trigger: "After updating App.jsx for a new tab."
+confidence: 0.95
+domain: workflow
+source: repo-analysis
+source_repo: ericjohncal/Animals-Plants-Distribution-System
+---
+
+# Animals Plants Distribution System Instinct Add Tab Css
+
+## Action
+
+Update frontend/src/App.css to style the new tab and any new UI elements.
+
+## Evidence
+
+- Workflow: add-new-tab-to-app-shell
+- Commit: 'Update App.css to style the new tab and any new UI elements'
+
+---
+id: animals-plants-distribution-system-instinct-add-tab-navbar
+trigger: "After styling the new tab."
+confidence: 0.95
+domain: workflow
+source: repo-analysis
+source_repo: ericjohncal/Animals-Plants-Distribution-System
+---
+
+# Animals Plants Distribution System Instinct Add Tab Navbar
+
+## Action
+
+Update frontend/src/components/Navbar.jsx to include the new tab in the navigation.
+
+## Evidence
+
+- Workflow: add-new-tab-to-app-shell
+- Commit: 'Update Navbar.jsx to include the new tab in the navigation'
+
+---
+id: animals-plants-distribution-system-instinct-add-tab-data
+trigger: "When the new tab requires additional data."
+confidence: 0.9
+domain: workflow
+source: repo-analysis
+source_repo: ericjohncal/Animals-Plants-Distribution-System
+---
+
+# Animals Plants Distribution System Instinct Add Tab Data
+
+## Action
+
+Update or add data files relevant to the tab's functionality.
+
+## Evidence
+
+- Workflow: add-new-tab-to-app-shell
+- Commit: 'If needed, update or add data files relevant to the tab's functionality'
+
+---
+id: animals-plants-distribution-system-instinct-design-system-css
+trigger: "When introducing or updating the design system."
+confidence: 0.9
+domain: workflow
+source: repo-analysis
+source_repo: ericjohncal/Animals-Plants-Distribution-System
+---
+
+# Animals Plants Distribution System Instinct Design System Css
+
+## Action
+
+Create or update a design token CSS file (e.g., colors_and_type.css) in frontend/src/.
+
+## Evidence
+
+- Workflow: update-design-system-and-apply-globally
+- Commit: 'Create or update a design token CSS file (e.g., colors_and_type.css)'
+
+---
+id: animals-plants-distribution-system-instinct-design-system-fonts
+trigger: "When updating the design system and fonts are involved."
+confidence: 0.9
+domain: workflow
+source: repo-analysis
+source_repo: ericjohncal/Animals-Plants-Distribution-System
+---
+
+# Animals Plants Distribution System Instinct Design System Fonts
+
+## Action
+
+Add or update font files under frontend/src/fonts/.
+
+## Evidence
+
+- Workflow: update-design-system-and-apply-globally
+- Commit: 'Add or update font files under src/fonts/'
+
+---
+id: animals-plants-distribution-system-instinct-design-system-import
+trigger: "After updating design token CSS."
+confidence: 0.9
+domain: workflow
+source: repo-analysis
+source_repo: ericjohncal/Animals-Plants-Distribution-System
+---
+
+# Animals Plants Distribution System Instinct Design System Import
+
+## Action
+
+Wire the design token CSS as the first import in frontend/src/index.js.
+
+## Evidence
+
+- Workflow: update-design-system-and-apply-globally
+- Commit: 'Wire the design token CSS as the first import in index.js'
+
+---
+id: animals-plants-distribution-system-instinct-design-system-app-css
+trigger: "After wiring design token CSS."
+confidence: 0.9
+domain: workflow
+source: repo-analysis
+source_repo: ericjohncal/Animals-Plants-Distribution-System
+---
+
+# Animals Plants Distribution System Instinct Design System App Css
+
+## Action
+
+Rewrite frontend/src/App.css and other CSS files to use the new tokens.
+
+## Evidence
+
+- Workflow: update-design-system-and-apply-globally
+- Commit: 'Rewrite App.css and possibly other CSS files to consume the new tokens'
+
+---
+id: animals-plants-distribution-system-instinct-design-system-index-html
+trigger: "After updating fonts and CSS tokens."
+confidence: 0.9
+domain: workflow
+source: repo-analysis
+source_repo: ericjohncal/Animals-Plants-Distribution-System
+---
+
+# Animals Plants Distribution System Instinct Design System Index Html
+
+## Action
+
+Update frontend/public/index.html to remove or replace font links as needed.
+
+## Evidence
+
+- Workflow: update-design-system-and-apply-globally
+- Commit: 'Update index.html to remove or replace font links as needed'
+
+---
+id: animals-plants-distribution-system-instinct-design-system-verify
+trigger: "After applying design system changes."
+confidence: 0.9
+domain: workflow
+source: repo-analysis
+source_repo: ericjohncal/Animals-Plants-Distribution-System
+---
+
+# Animals Plants Distribution System Instinct Design System Verify
+
+## Action
+
+Ensure all components use the new design system without breaking existing functionality.
+
+## Evidence
+
+- Workflow: update-design-system-and-apply-globally
+- Commit: 'Ensure all components use the new design system without breaking existing functionality'
+
